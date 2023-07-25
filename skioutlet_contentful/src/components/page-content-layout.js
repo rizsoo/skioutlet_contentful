@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useState } from 'react'
 
 import { Navbar } from './Navbar'
 import { Localization } from './Localization'
@@ -8,11 +7,10 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import { renderRichText } from "gatsby-source-contentful/rich-text"
 import { Footer } from './Footer'
 import { ShopSection } from '../components/ShopSection/ShopSection';
+import { Parse } from '../../parse'
 
 
-export const PageContentLayout = ({ title, content, navbar, footer, details }) => {
-    console.log(details);
-    const [openPopup, setOpenPopup] = useState(false)
+export const PageContentLayout = ({ title, content, navbar, footer, details, path, products }) => {
 
     const options = {
         renderNode: {
@@ -35,6 +33,8 @@ export const PageContentLayout = ({ title, content, navbar, footer, details }) =
                                 props={data}
                                 options={options}
                                 lang={details}
+                                slug={path}
+                                products={products}
                             />
                         )
                     default:
@@ -49,7 +49,7 @@ export const PageContentLayout = ({ title, content, navbar, footer, details }) =
     return (
         <div>
             <Navbar navbar={navbar} lang={details} />
-            <div style={{ minHeight: "calc(100vh - 317px)" }}>
+            <div style={{ minHeight: "calc(100vh - 468px)" }}>
                 {((details.slug !== "home") && (details.slug !== "shop")) && <PageTitle isHome={details.slug}>{title}</PageTitle>}
                 <PageContent>
                     <Content>

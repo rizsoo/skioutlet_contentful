@@ -8,7 +8,7 @@ import { SEO } from '../components/Seo';
 import { PageContentLayout } from '../components/page-content-layout';
 
 const PageTemplate = ({ data: { page, navbar, footer } }) => {
-  console.log(navbar);
+
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {

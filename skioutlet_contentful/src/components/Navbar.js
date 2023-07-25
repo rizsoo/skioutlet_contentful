@@ -24,9 +24,9 @@ export const Navbar = ({ navbar, lang }) => {
                     <Link to={lang.node_locale === "hu" ? "/" : "/en"}>
                         <img src={logo} />
                     </Link>
-                    <Link to={"https://g.page/skioutlet?share"}>
+                    <a href={"https://g.page/skioutlet?share"} target='_blank' rel="noreferrer">
                         <Location><HiOutlineLocationMarker /><p>1027 Budapest, Margit körút 46.</p></Location>
-                    </Link>
+                    </a>
                 </Banner>
                 <Nav>
                     <ul>
@@ -38,9 +38,9 @@ export const Navbar = ({ navbar, lang }) => {
                             })}
                         </span>
                         <Socials>
-                            <li key={5}><a href={'https://www.facebook.com/skioutletstore'} target='_blank'><BsFacebook /></a></li>
-                            <li key={6}><a href={'https://www.instagram.com/skioutletbudapest'} target='_blank'><BsInstagram /></a></li>
-                            <li key={7}><a href={'https://www.youtube.com/user/skioutlet'} target='_blank'><BsYoutube /></a></li>
+                            <li key={5}><a href={'https://www.facebook.com/skioutletstore'} target='_blank' rel="noreferrer"><BsFacebook /></a></li>
+                            <li key={6}><a href={'https://www.instagram.com/skioutletbudapest'} target='_blank' rel="noreferrer"><BsInstagram /></a></li>
+                            <li key={7}><a href={'https://www.youtube.com/user/skioutlet'} target='_blank' rel="noreferrer"><BsYoutube /></a></li>
                         </Socials>
                     </ul>
                 </Nav>
@@ -108,7 +108,7 @@ export const Nav = styled.div`
         margin: 0 auto;
         width: 100%;
         max-width: 900px;
-        padding: 10px;
+        padding: 10px 0;
         text-transform: uppercase;
         span {
             display: flex;

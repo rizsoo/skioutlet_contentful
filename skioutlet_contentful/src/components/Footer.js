@@ -18,7 +18,7 @@ export const Footer = ({ footer, lang }) => {
                     </List>
                     <span>
                         <p>Created by Kristóf Fehér</p>
-                        <p>COPYRIGHT © Káli-medencei Borok Háza Kft.</p>
+                        <p>COPYRIGHT © Lavina-Sport Kft.</p>
                     </span>
                 </Content>
             </FooterBox>
@@ -73,7 +73,7 @@ export const Socials = styled.div`
 `
 
 export const Content = styled.div`
-    width: 1400px;
+    width: 900px;
     max-width: calc(100vw - 60px);
     display: flex;
     align-items: center;

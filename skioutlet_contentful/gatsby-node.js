@@ -1,4 +1,40 @@
-const path = require('path')
+const path = require('path');
+const fetch = require("node-fetch");
+const axios = require("axios");
+const Papa = require("papaparse");
+const arrayMergeByKey = require("array-merge-by-key");
+const filteredSearchcode = require("./src/components/functions/filter_by_color");
+
+async function fetchCsvDataAndConvertToJson(url, header, delimeter) {
+    try {
+        const csvUrl = url;
+        const response = await axios.get(csvUrl);
+        const csvData = response.data;
+
+        return new Promise((resolve) => {
+            Papa.parse(csvData, {
+                skipEmptyLines: true,
+                delimiter: delimeter,
+                // download: true,
+                encoding: "UTF-8",
+                dynamicTyping: false,
+                dontInfer: true,
+                header: true,
+                transformHeader: function (h, i) {
+                    h = header[i]
+                    return h
+                },
+                complete: (result) => {
+                    let res = result.data
+                    resolve(res);
+                },
+            });
+        });
+    } catch (error) {
+        console.error("Error fetching or parsing CSV data:", error);
+        return [];
+    }
+}
 
 exports.onCreateWebpackConfig = ({ stage, actions }) => {
     actions.setWebpackConfig({
@@ -11,7 +47,33 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
     })
 }
 
+// Create the GraphQL
+exports.sourceNodes = async ({ actions }) => {
+    const { createNode } = actions;
 
+    // Fetch and convert CSV data to JSON
+    const jsonData = await fetchCsvDataAndConvertToJson("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv", ["sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size"], "\t")
+    const fixedJsonData = jsonData.filter(prod => Number(prod.stock.split(",").shift()) > 0);
+    const imageData = await fetchCsvDataAndConvertToJson("https://wp.skioutlet.hu/wp-content/uploads/2022/09/keresokod_utf8.csv", ["sku", "img"], "")
+    let mergedData = filteredSearchcode(arrayMergeByKey("sku", imageData, fixedJsonData).filter(el => el.title), 'img').filter(el => el.sku != undefined || el.sku != null)
+
+    // Create a new GraphQL node for the JSON data
+    mergedData.forEach((data, index) => {
+        createNode({
+            ...data,
+            id: `${index}`, // Use a unique ID for each node
+            parent: null,
+            children: [],
+            internal: {
+                type: "CsvData", // Specify the GraphQL type name for the node
+                contentDigest: JSON.stringify(data),
+            },
+        });
+    });
+};
+
+
+// Create pages
 exports.createPages = async ({ graphql, actions }) => {
     const { createPage } = actions
     const { data } = await graphql(`
@@ -22,6 +84,21 @@ exports.createPages = async ({ graphql, actions }) => {
 				  node_locale
 				}
 			}
+            products: allCsvData {
+                nodes {
+                    sku
+                    img
+                    title
+                    brand
+                    cat1
+                    cat2
+                    price
+                    saleprice
+                    isonsale
+                    stock
+                    size
+                }
+            }
 		}
 	`)
 
@@ -32,6 +109,28 @@ exports.createPages = async ({ graphql, actions }) => {
             context: {
                 slug: node.slug,
                 node_locale: node.node_locale
+            }
+        })
+    })
+
+    // Products pages
+    data.products.nodes.forEach(node => {
+        createPage({
+            path: (`/shop/product/${node.img}`),
+            component: path.resolve(`src/templates/product-template.js`),
+            context: {
+                slug: node.img,
+                node_locale: "hu"
+            }
+        })
+    })
+    Array.from({ length: 100 }, (v, k) => k + 1).forEach(node => {
+        createPage({
+            path: (`/shop/${node}`),
+            component: path.resolve(`src/templates/shop-template.js`),
+            context: {
+                slug: `/shop/${node}`,
+                node_locale: "hu",
             }
         })
     })

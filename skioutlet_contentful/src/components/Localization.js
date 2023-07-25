@@ -26,14 +26,13 @@ export const Localization = ({ data }) => {
         <LangaugeSelector>
             <Flag icon={isOpen}>
                 {languages.filter(el => el.country_code !== data.node_locale).map(({ code, name, country_code }) => (
-                    <Link key={name} to={data.slug === "home" && data.node_locale === "en" ? '/' : data.slug === "home" ? `/${country_code}` : `/${country_code}/${data.slug}`}>
+                    <Link key={name} to={data.slug === "home" && data.node_locale === "en" ? '/' : data.slug === "home" ? `/${country_code}` : data.node_locale === "en" ? `/${data.slug}` : `/${country_code}/${data.slug}`}>
                         <img src={code} alt='' key={code} onClick={() => { setIsOpen(true) }} />
                     </Link>
                 ))}
             </Flag>
             <img src={require(`/src/assets/img/${data.node_locale}.png`).default} alt="" onClick={() => { setIsOpen(!isOpen) }} />
         </LangaugeSelector>
-
     )
 }
 
