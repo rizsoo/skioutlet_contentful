@@ -9,6 +9,8 @@ import { PageContentLayout } from '../components/page-content-layout';
 
 const ShopTemplate = ({ data: { page, navbar, footer, products }, path }) => {
 
+    // console.log(products);
+
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
@@ -93,16 +95,16 @@ query MyQuery($node_locale: String) {
     products: allCsvData {
         nodes {
             sku
-                title
-                img
-                brand
-                cat1
-                cat2
-                price
-                saleprice
-                isonsale
-                stock
-                size
+            title
+            img
+            brand
+            cat1
+            cat2
+            price
+            saleprice
+            isonsale
+            stock
+            size
         }
     }
 }

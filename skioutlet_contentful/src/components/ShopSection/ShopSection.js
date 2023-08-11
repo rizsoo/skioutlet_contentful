@@ -11,6 +11,7 @@ import SectionSize from './SectionSize';
 import FilterSearch from './FilterSearch';
 import Pagi from './Pagi';
 import Mosaik from './Mosaik'
+import { Link } from 'gatsby';
 
 //icons
 import genderIcon from '../../assets/img/genderIcon.png'
@@ -21,14 +22,14 @@ import sizeLogo from '../../assets/img/size.png'
 import trashIcon from '../../assets/img/recycling.png'
 
 export const ShopSection = ({ lang, slug, products }) => {
-  console.log(products);
+
   // UTF Decoder
   function urldecode(str) {
     return decodeURIComponent((str + '').replace(/\+/g, '%20'));
   }
 
   // PAGER
-  const slugNum = Number(slug.split("/")[2])
+  const slugNum = Number(slug.split("/")[2]) === 0 ? 1 : Number(slug.split("/")[2])
 
   // Searchterm
   const searchResult = slug.includes("s=") ? slug.split("s=").pop() : '';
@@ -113,7 +114,7 @@ export const ShopSection = ({ lang, slug, products }) => {
     setFilterOpen(false)
     setSorting("")
     setSize("")
-    window.history.replaceState(null, "Shop", "/shop/1/")
+    window.history.replaceState(null, "Shop", "/shop/")
   }
 
   // TOTAL PAGE NUMBER  
@@ -161,7 +162,7 @@ export const ShopSection = ({ lang, slug, products }) => {
     <ShopContent>
       <FilterHeader>
         <FilterBar>
-          <DelButton onClick={clearOutSearch} ><img src={trashIcon} alt='' /></DelButton>
+          <Link to={`/shop/`}><DelButton onClick={clearOutSearch} ><img src={trashIcon} alt='' /></DelButton></Link>
           <Search />
         </FilterBar>
         <FilterBar>

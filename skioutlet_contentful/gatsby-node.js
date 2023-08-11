@@ -102,10 +102,11 @@ exports.createPages = async ({ graphql, actions }) => {
 		}
 	`)
 
+    // Simple Contentful pages
     data.pages.nodes.forEach(node => {
         createPage({
             path: (node.node_locale === "hu") ? `/${node.slug === "home" ? `` : `${node.slug}`}` : ((node.slug === "home") ? `/${node.node_locale}` : `/${node.node_locale}/${node.slug}`),
-            component: path.resolve(`src/templates/page-template.js`),
+            component: (node.slug === "shop" ? (path.resolve(`src/templates/shop-template.js`)) : (path.resolve(`src/templates/page-template.js`))),
             context: {
                 slug: node.slug,
                 node_locale: node.node_locale
