@@ -38,9 +38,9 @@ const Item = ({ state, prod, size }) => {
 
   return (
     <ItemFrame>
-      <Link to={generatePath("/shop/product/:id", {
+{/*       <Link to={generatePath("/shop/product/:id", {
         id: prodImg
-      })}>
+      })}> */}
         <ItemContent>
           <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} />
           <h2 className='product-title'>{prodTitle}</h2>
@@ -50,8 +50,8 @@ const Item = ({ state, prod, size }) => {
             <h2>{currencyConverter(prod.saleprice)}</h2>
           </ItemPrice>
         </ItemContent>
-      </Link>
-    </ItemFrame>
+{/*       </Link>
+ */}    </ItemFrame>
   )
 }
 
