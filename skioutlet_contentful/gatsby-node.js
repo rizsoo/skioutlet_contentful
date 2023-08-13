@@ -105,7 +105,7 @@ exports.createPages = async ({ graphql, actions }) => {
     // Simple Contentful pages
     data.pages.nodes.forEach(node => {
         createPage({
-            path: (node.node_locale === "hu") ? `/${node.slug === "home" ? `` : `${node.slug}`}` : ((node.slug === "home") ? `/${node.node_locale}` : `/${node.node_locale}/${node.slug}`),
+            path: (node.node_locale === "hu") ? `/${node.slug === "home" ? `` : (!node.slug.includes("_") && `${node.slug}`)}` : ((node.slug === "home") ? `/${node.node_locale}` : `/${node.node_locale}/${node.slug}`),
             component: (node.slug === "shop" ? (path.resolve(`src/templates/shop-template.js`)) : (path.resolve(`src/templates/page-template.js`))),
             context: {
                 slug: node.slug,
@@ -115,7 +115,7 @@ exports.createPages = async ({ graphql, actions }) => {
     })
 
     // Products pages
-    data.products.nodes.forEach(node => {
+/*     data.products.nodes.forEach(node => {
         createPage({
             path: (`/shop/product/${node.img}`),
             component: path.resolve(`src/templates/product-template.js`),
@@ -124,7 +124,8 @@ exports.createPages = async ({ graphql, actions }) => {
                 node_locale: "hu"
             }
         })
-    })
+    }) */
+
     Array.from({ length: 100 }, (v, k) => k + 1).forEach(node => {
         createPage({
             path: (`/shop/${node}`),
