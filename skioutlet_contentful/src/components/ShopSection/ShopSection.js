@@ -160,7 +160,7 @@ export const ShopSection = ({ lang, slug, products }) => {
 
   return (
     <ShopContent>
-      <FilterHeader>
+{/*       <FilterHeader>
         <FilterBar>
           <Link to={`/shop/`}><DelButton onClick={clearOutSearch} ><img src={trashIcon} alt='' /></DelButton></Link>
           <Search />
@@ -181,7 +181,7 @@ export const ShopSection = ({ lang, slug, products }) => {
             )
           })}
         </FilterBar>
-      </FilterHeader>
+      </FilterHeader> */}
       {/* Cleancode */}
       {isFilterOpen ? <FilterButton>
         {sectionList.map((tag, index, arr) => {
