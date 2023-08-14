@@ -7,7 +7,7 @@ import { ThreeDots } from 'react-loader-spinner'
 import { SEO } from '../components/Seo';
 import { PageContentLayout } from '../components/page-content-layout';
 
-const PageTemplate = ({ data: { page, navbar, footer } }) => {
+const PageTemplate = ({ data: { page, navbar, footer }, path }) => {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -29,6 +29,7 @@ const PageTemplate = ({ data: { page, navbar, footer } }) => {
           navbar={navbar}
           footer={footer}
           details={page}
+          path={path}
         />
         :
         <div style={{ width: "100vw", height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>

@@ -29,7 +29,7 @@ export const ShopSection = ({ lang, slug, products }) => {
   }
 
   // PAGER
-  const slugNum = Number(slug.split("/")[2]) === 0 ? 1 : Number(slug.split("/")[2])
+  const slugNum = Number(slug.includes("pagenum") ? slug.split("/").filter(el => el.includes("pagenum"))[0].split("_").pop() : 1)
 
   // Searchterm
   const searchResult = slug.includes("s=") ? slug.split("s=").pop() : '';
@@ -246,6 +246,7 @@ export const ShopSection = ({ lang, slug, products }) => {
         sorting={sorting}
         size={size}
         filteredProducts={filteredProducts}
+        lang={lang.node_locale}
         nextNum={nextNum} />
       <Pagi
         totalPageNum={totalPageNum}

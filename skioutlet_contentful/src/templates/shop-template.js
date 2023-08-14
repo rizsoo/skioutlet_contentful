@@ -9,8 +9,6 @@ import { PageContentLayout } from '../components/page-content-layout';
 
 const ShopTemplate = ({ data: { page, navbar, footer, products }, path }) => {
 
-    // console.log(products);
-
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {

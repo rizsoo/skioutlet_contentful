@@ -3,6 +3,8 @@ import { generatePath } from 'react-router-dom';
 import { Link } from 'gatsby';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import HeartIco from '../../assets/img/icons/heart.png'
+import RedHeartIco from '../../assets/img/icons/redheart.png'
 
 function currencyConverter(number) {
   let priceSep = String(number).split("");
@@ -11,7 +13,8 @@ function currencyConverter(number) {
   return finalPrice;
 }
 
-const Item = ({ state, prod, size }) => {
+const Item = ({ prod, size, lang }) => {
+
   let prodTitle = String(prod.title);
   let prodBrand = String(prod.brand);
   let imgFolderName = prodBrand.toLowerCase();
@@ -19,6 +22,7 @@ const Item = ({ state, prod, size }) => {
   // Get image
   const [imgData, setImgData] = useState([])
   const [loaded, setLoaded] = useState(false)
+  const [heartStatus, setHeartStatus] = useState(HeartIco)
 
   function setSource() {
     try {
@@ -38,11 +42,15 @@ const Item = ({ state, prod, size }) => {
 
   return (
     <ItemFrame>
-{/*       <Link to={generatePath("/shop/product/:id", {
-        id: prodImg
-      })}> */}
+      <Link to={generatePath("/:lang/product/:id", {
+        id: prodImg,
+        lang: lang === "hu" ? "" : "en"
+      })}>
         <ItemContent>
-          <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} />
+          <HeartIcon src={heartStatus} onMouseEnter={() => setHeartStatus(RedHeartIco)} onMouseLeave={() => setHeartStatus(HeartIco)} />
+          <ImageContainer>
+            <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} />
+          </ImageContainer>
           <h2 className='product-title'>{prodTitle}</h2>
           {/* <p>{prod.img}</p> */}
           <ItemPrice>
@@ -50,8 +58,8 @@ const Item = ({ state, prod, size }) => {
             <h2>{currencyConverter(prod.saleprice)}</h2>
           </ItemPrice>
         </ItemContent>
-{/*       </Link>
- */}    </ItemFrame>
+      </Link>
+    </ItemFrame>
   )
 }
 
@@ -60,14 +68,22 @@ export const ItemFrame = styled.div`
   min-width: 250px;
   height: 450px;
   background-color: white;
-  border-radius: 15px;
 
   text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+
   @media (max-width: 600px) {
     width: 100%;
   }
 `;
+
+export const HeartIcon = styled.img`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  height: 22px;
+`
 
 export const ItemContent = styled.div`
   height: 100%;
@@ -83,17 +99,15 @@ export const ItemContent = styled.div`
     cursor: text;
   }
   img {
-    position: absolute;
-    top: 10px;
-    width: 95%;
     max-height: 282px;
     object-fit: contain;
   }
   h2 {
     font-weight: 600;
-    font-size: 23px;
-    padding: 0 10px;
+    font-size: 20px;
+    padding: 0 8px;
     margin: 10px 0;
+    line-height: 25px;
 
     text-decoration: none !important;
 
@@ -104,11 +118,21 @@ export const ItemContent = styled.div`
   }
 `;
 
+export const ImageContainer = styled.div`
+  height: 100%;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 18px 10px 18px;
+`
+
 export const ItemPrice = styled.div`
   width: 100%;
   background-color: #ed2123;
   color: white;
-  border-radius: 0 0 15px 15px;
+
+  padding: 5px 0 4px 0;
 
   display: flex;
   justify-content: center;

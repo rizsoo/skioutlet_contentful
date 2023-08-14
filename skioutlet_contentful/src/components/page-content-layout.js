@@ -7,11 +7,12 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import { renderRichText } from "gatsby-source-contentful/rich-text"
 import { Footer } from './Footer'
 import { ShopSection } from '../components/ShopSection/ShopSection';
+import SingleProductPage from './ShopSection/SingleProductPage'
 import { Parse } from '../../parse'
 
 
-export const PageContentLayout = ({ title, content, navbar, footer, details, path, products }) => {
-
+export const PageContentLayout = ({ title, content, navbar, footer, details, path, products, product }) => {
+    console.log(details);
     const options = {
         renderNode: {
             [BLOCKS.EMBEDDED_ASSET]: (node) => {
@@ -31,9 +32,18 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
                         return (
                             <ShopSection
                                 props={data}
-                                options={options}
                                 lang={details}
                                 slug={path}
+                                products={products}
+                            />
+                        )
+                    case "ContentfulProductSection":
+                        return (
+                            <SingleProductPage
+                                props={data}
+                                lang={details}
+                                slug={path}
+                                product={product}
                                 products={products}
                             />
                         )
@@ -50,7 +60,7 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
         <div>
             <Navbar navbar={navbar} lang={details} />
             <div style={{ minHeight: "calc(100vh - 468px)" }}>
-                {((details.slug !== "home") && (details.slug !== "shop")) && <PageTitle isHome={details.slug}>{title}</PageTitle>}
+                {((details.slug !== "home") && (details.slug !== "shop") && (!details.slug.includes("product"))) && <PageTitle isHome={details.slug}>{title}</PageTitle>}
                 <PageContent>
                     <Content>
                         {output}
@@ -58,7 +68,7 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
                 </PageContent>
             </div>
             <Footer footer={footer} lang={details} />
-            <Localization data={details} />
+            <Localization data={details} path={path} />
         </div>
     )
 }

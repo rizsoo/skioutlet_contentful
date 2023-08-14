@@ -7,28 +7,35 @@ import { ThreeDots } from 'react-loader-spinner'
 import { SEO } from '../components/Seo';
 import { PageContentLayout } from '../components/page-content-layout';
 
-const ProductTemplate = ({ data: { page, navbar, footer } }) => {
+const ProductTemplate = ({ data: { page, navbar, footer, products }, path, pageContext }) => {
+
+    console.log(pageContext);
+    let product = pageContext.details
+    console.log(product);
 
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         setIsLoaded(true)
-    }, [page])
+    }, [products])
 
     return (
         <>
             <Helmet>
-                <title>{page.title}</title>
-                <SEO title={page.title} description={"Skioutlet síszaküzlet"} />
+                <title>{product.title}</title>
+                <SEO title={product.title} description={"Skioutlet síszaküzlet"} />
             </Helmet>
             {isLoaded ?
                 <PageContentLayout
-                    title={page.title}
+                    title={product.title}
                     content={page.content}
                     image={page.image}
                     navbar={navbar}
                     footer={footer}
-                    details={page}
+                    details={pageContext}
+                    path={path}
+                    product={product}
+                    products={products}
                 />
                 :
                 <div style={{ width: "100vw", height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -48,15 +55,20 @@ const ProductTemplate = ({ data: { page, navbar, footer } }) => {
 }
 
 export const query = graphql`
-query MyQuery($slug: String, $node_locale: String) {
-  page: contentfulPage(slug: { eq: $slug }, node_locale: { eq: $node_locale }) {
+query MyQuery($node_locale: String) {
+  page: contentfulPage(slug: { eq: "product" }, node_locale: { eq: $node_locale }) {
         content {
           raw
           references {
-            ... on ContentfulShopSection {
+            ... on ContentfulProductSection {
               __typename
               contentful_id
               title
+              stock
+              cathegory
+              comment
+              sku
+              piece
             }
          }  
         }
@@ -86,6 +98,21 @@ query MyQuery($slug: String, $node_locale: String) {
         title
         slug
         node_locale
+        }
+    }
+    products: allCsvData {
+        nodes {
+            sku
+            title
+            img
+            brand
+            cat1
+            cat2
+            price
+            saleprice
+            isonsale
+            stock
+            size
         }
     }
 }

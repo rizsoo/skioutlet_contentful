@@ -2,7 +2,7 @@ import React from 'react'
 import Item from './Item'
 import styled from 'styled-components'
 
-const Mosaik = ({ sorting, filteredProducts, nextNum, size }) => {
+const Mosaik = ({ sorting, filteredProducts, nextNum, size, lang }) => {
 
     function renderSorting(val) {
         if (val === "name") {
@@ -19,7 +19,7 @@ const Mosaik = ({ sorting, filteredProducts, nextNum, size }) => {
             {filteredProducts.length > 0 ?
                 renderSorting(sorting).filter((item, i) =>
                     i >= nextNum - 15 & i < nextNum).map((prod, index) =>
-                        <Item key={index} prod={prod} size={size} />) : <h2 className='sorry'>Nem található termék...</h2>}
+                        <Item key={index} prod={prod} size={size} lang={lang} />) : <h2 className='sorry'>Nem található termék...</h2>}
         </ProductsList>
     )
 }

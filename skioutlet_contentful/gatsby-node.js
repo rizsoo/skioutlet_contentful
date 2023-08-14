@@ -114,24 +114,39 @@ exports.createPages = async ({ graphql, actions }) => {
         })
     })
 
-    // Products pages
-/*     data.products.nodes.forEach(node => {
+    // Products hu pages
+    data.products.nodes.forEach(node => {
         createPage({
-            path: (`/shop/product/${node.img}`),
+            path: (`/product/${node.img}`),
             component: path.resolve(`src/templates/product-template.js`),
             context: {
-                slug: node.img,
-                node_locale: "hu"
+                slug: `product/${node.img}`,
+                node_locale: "hu",
+                details: node
             }
         })
-    }) */
+    })
+
+   // Products en pages
+   data.products.nodes.forEach(node => {
+    createPage({
+        path: (`en/product/${node.img}`),
+        component: path.resolve(`src/templates/product-template.js`),
+        context: {
+            slug: `product/${node.img}`,
+            node_locale: "en",
+            details: node
+        }
+    })
+})
+
 
     Array.from({ length: 100 }, (v, k) => k + 1).forEach(node => {
         createPage({
-            path: (`/shop/${node}`),
+            path: (`/shop/pagenum_${node}`),
             component: path.resolve(`src/templates/shop-template.js`),
             context: {
-                slug: `/shop/${node}`,
+                slug: `/shop/pagenum_${node}`,
                 node_locale: "hu",
             }
         })

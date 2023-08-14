@@ -36,7 +36,7 @@ const Pagi = ({ sorting, totalPageNum, searchTerm, pageNum, handlePageClick, set
         <Pagination>
             {specialPagination().map((el, index) => {
                 return (
-                    <Link key={index} to={`/shop/${el}${sorting == undefined ? "" : `?orderby=${sorting}`}${searchTerm.length > 0 ? `${sorting !== undefined ? "&" : "?"}s=${searchTerm}` : ""}`}>
+                    <Link key={index} to={`/shop/pagenum_${el}${sorting == undefined ? "" : `?orderby=${sorting}`}${searchTerm.length > 0 ? `${sorting !== undefined ? "&" : "?"}s=${searchTerm}` : ""}`}>
                         <PageNumber
                             onClick={() => setPageNum(el)}
                             style={pageNum === el ? { backgroundColor: "#e1e1e1" } : null}>
