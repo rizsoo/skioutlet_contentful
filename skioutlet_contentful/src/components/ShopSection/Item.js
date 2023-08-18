@@ -64,9 +64,8 @@ const Item = ({ prod, size, lang }) => {
 }
 
 export const ItemFrame = styled.div`
-  width: 270px;
-  min-width: 250px;
-  height: 450px;
+  
+  max-height: 450px;
   background-color: white;
 
   text-align: center;
@@ -116,6 +115,12 @@ export const ItemContent = styled.div`
     font-family: "Raleway", sans-serif;
     z-index: 1;
   }
+  @media (max-width: 600px) {
+    h2 {
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
 `;
 
 export const ImageContainer = styled.div`
@@ -141,6 +146,12 @@ export const ItemPrice = styled.div`
       margin: 13px 0;
       background-color: #ed2123 !important;
       color: white !important;
+    }
+    @media (max-width: 600px) {
+      flex-direction: column;
+      h2 {
+        margin: 3px 0;
+      }
     }
 `;
 

@@ -26,12 +26,17 @@ const Mosaik = ({ sorting, filteredProducts, nextNum, size, lang }) => {
 
 export const ProductsList = styled.section`
   max-width: 900px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 35px;
 
   padding: 25px 0;
   margin: 0 auto;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
 `;
 
 export default Mosaik
