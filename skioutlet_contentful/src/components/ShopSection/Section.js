@@ -105,8 +105,8 @@ export const SubButton = styled.s`
     border-radius: 10px;
     cursor: pointer;
     background-color: white;
-    width: 50px;
-    height: 50px;    
+    min-width: 50px;
+    min-height: 50px;
     position: relative; 
     img {
       padding: 8px;
