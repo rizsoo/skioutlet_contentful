@@ -1,10 +1,7 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
-import { ThreeDots } from 'react-loader-spinner';
-import Papa from 'papaparse';
 import filteredSearchcode from '../functions/filter_by_color';
-import arrayMergeByKey from 'array-merge-by-key';
 import Search from './Search'
 import Section from './Section';
 import SectionSize from './SectionSize';
@@ -23,6 +20,9 @@ import trashIcon from '../../assets/img/recycling.png'
 
 export const ShopSection = ({ lang, slug, products }) => {
 
+  const location = window.location.search
+  console.log(location);
+
   // UTF Decoder
   function urldecode(str) {
     return decodeURIComponent((str + '').replace(/\+/g, '%20'));
@@ -32,7 +32,8 @@ export const ShopSection = ({ lang, slug, products }) => {
   const slugNum = Number(slug.includes("pagenum") ? slug.split("/").filter(el => el.includes("pagenum"))[0].split("_").pop() : 1)
 
   // Searchterm
-  const searchResult = slug.includes("s=") ? slug.split("s=").pop() : '';
+  const searchResult = location.includes("s=") ? location.split("s=").pop() : '';
+  console.log(searchResult);
 
   const queryResult = searchResult != null && searchResult.length > 0 ? searchResult.toLocaleLowerCase() : '';
   const queryLast = queryResult.includes("+") ? queryResult.split("+").join(" ") : queryResult;
@@ -42,14 +43,12 @@ export const ShopSection = ({ lang, slug, products }) => {
   const orderNameOnly = orderResult.includes("&") ? orderResult.split("&")[0] : orderResult;
 
   //STATES
-  const [imgData, setImgData] = useState([])
   const [pageNum, setPageNum] = useState(slugNum);
-  console.log(pageNum);
   const [searchTerm, setSearchTerm] = useState(urldecode(queryLast))
   const [sorting, setSorting] = useState(orderNameOnly);
 
 
-  let nextNum = pageNum * 15;
+  let nextNum = pageNum * 16;
 
   // Filtering by cat/brand/sex
   let brandList = filteredSearchcode(products, 'brand').filter(data => data.brand != undefined).map(data => data.brand.toLowerCase()).map(brand => brand.includes(" ") ? brand.split(" ").join("-") : brand).sort((a, b) => a.localeCompare(b));
@@ -118,7 +117,7 @@ export const ShopSection = ({ lang, slug, products }) => {
   }
 
   // TOTAL PAGE NUMBER  
-  let totalPageNum = Math.ceil(filteredProducts.length / 15);
+  let totalPageNum = Math.ceil(filteredProducts.length / 16);
 
   const filterButtons = [
     {
@@ -158,13 +157,15 @@ export const ShopSection = ({ lang, slug, products }) => {
     },
   ];
 
+  console.log(searchTerm);
+
   return (
     <ShopContent>
-{/*       <FilterHeader>
-        <FilterBar>
+      <FilterHeader>
+        <FilterBarLeft>
           <Link to={`/shop/`}><DelButton onClick={clearOutSearch} ><img src={trashIcon} alt='' /></DelButton></Link>
           <Search />
-        </FilterBar>
+        </FilterBarLeft>
         <FilterBar>
           {filterButtons.map((el, index) => {
             // console.log(el);
@@ -181,7 +182,7 @@ export const ShopSection = ({ lang, slug, products }) => {
             )
           })}
         </FilterBar>
-      </FilterHeader> */}
+      </FilterHeader>
       {/* Cleancode */}
       {isFilterOpen ? <FilterButton>
         {sectionList.map((tag, index, arr) => {
@@ -246,6 +247,7 @@ export const ShopSection = ({ lang, slug, products }) => {
         sorting={sorting}
         size={size}
         filteredProducts={filteredProducts}
+        searchTerm={searchTerm}
         lang={lang.node_locale}
         nextNum={nextNum} />
       <Pagi
@@ -270,14 +272,22 @@ export const FilterHeader = styled.div`
   border-radius: 10px;
   padding: 10px 10px;
   margin-bottom: 10px;
-  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
   @media (max-width: 600px) {
     flex-direction: column;
+    padding: 0 15px;
+    box-shadow: none;
   }
 `
-export const FilterBar = styled.div`
+export const FilterBarLeft = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+`
+export const FilterBar = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   align-items: center;
   s {
@@ -297,23 +307,30 @@ export const FilterBar = styled.div`
       background-color: white;
       transition: ease 0.1s;  
     }
-    @media (max-width: 600px) {
-      min-width: calc(25% - 10px);
-      min-height: 60px;
-    }
   }
   img {
     max-height: 27px;
   }
   @media (max-width: 600px) {
     gap: 12px;
+    s {
+      min-height: 58px;
+      box-shadow: none;
+      img {
+        max-height: 40px !important;
+      }
+    }
   }
 `;
 export const DelButton = styled.s`
   color: #ed2123;
+  img {
+    max-width: 30px;
+    margin-left: 3px;
+  }
   @media (max-width: 600px) {
-    ion-icon {
-      font-size: 36px;
+    img {
+      max-width: 50px;
     }
   }
 `
@@ -329,9 +346,12 @@ export const SectionButton = styled.s`
 export const FilterButton = styled.div`
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    max-width: 940px;
     gap: 10px;
-    margin-bottom: 10px;
+    margin: 10px auto;
+    @media (max-width: 600px) {
+      padding: 0 15px;
+    }
 `
 export const SizeList = styled.div`
     display: flex;

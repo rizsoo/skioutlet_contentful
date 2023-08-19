@@ -3,19 +3,19 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 
-let SingleProductPage = ( { props, lang, slug, product, products } ) => {
+let SingleProductPage = ({ props, lang, slug, product, products }) => {
 
-//data
-  let result= products.nodes.filter(el => el.img === product.img);
+  //data
+  let result = products.nodes.filter(el => el.img === product.img);
 
   // Get product gender //
-function getGender(val) {
-    if(val.includes("férfi")) return "Férfi";
-    if(val.includes("női")) return "Női";
-    if(val.includes("junior")) return "Junior";
-    if(val.includes("gyerek")) return "Gyerek";
+  function getGender(val) {
+    if (val.includes("férfi")) return "Férfi";
+    if (val.includes("női")) return "Női";
+    if (val.includes("junior")) return "Junior";
+    if (val.includes("gyerek")) return "Gyerek";
     else return "Unisex"
-}
+  }
 
   let prodTitle = String(product.title);
   let prodImg = String(product.img);
@@ -27,10 +27,10 @@ function getGender(val) {
   let prodGender = String(getGender(prodTitle));
   //kategoriak
   let prodCat1 = product.cat1
-  let prodCat2 = product.cat2 
+  let prodCat2 = product.cat2
 
 
-// CURRENCY STLYE CONVERTER
+  // CURRENCY STLYE CONVERTER
   function currencyConverter(number) {
     let priceSep = String(number).split("");
     let priceStr = priceSep.splice(priceSep.length - 3).join("");
@@ -39,27 +39,27 @@ function getGender(val) {
     return finalPrice;
   }
 
-// Get image
-const [imgData, setImgData] = useState([])
-function setSource() {
-  try{
+  // Get image
+  const [imgData, setImgData] = useState([])
+  function setSource() {
+    try {
       const src = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}.jpg`
       setImgData({ src });
-  }
-  catch(err){
+    }
+    catch (err) {
       console.log("img doesn't exists");
+    }
   }
-}
 
-useEffect(() => {
-  setSource();
-}, [prodBrand])
+  useEffect(() => {
+    setSource();
+  }, [prodBrand])
 
 
   return (
     <ProductContent>
-        <img src={imgData.src} alt={prodImg}/>
-        {/* {imgData.map((slide, index) => { 
+      <img src={imgData.src} alt={prodImg} />
+      {/* {imgData.map((slide, index) => { 
           return (
             <div className={index === current ? "active" : ""} key={index}>
                     {index === current && (<img className='single-prod-img' src={slide} alt="" />)}                    
@@ -79,20 +79,20 @@ useEffect(() => {
         <SingleProductDetails>
           <ProductSizeList>
             <b>{props.stock}</b>
-          {result.map((prod, index) => 
-            <SizeListColumn key={index}>
-              {prod.size ? <Asd>{prod.size}</Asd> : null}
-              <Dsa>{prod.stock != null ? prod.stock.split(",").shift() : ""} {props.piece}</Dsa>
-            </SizeListColumn>
-          )}
+            {result.map((prod, index) =>
+              <SizeListColumn key={index}>
+                {prod.size ? <Asd>{prod.size}</Asd> : null}
+                <Dsa>{prod.stock != null ? prod.stock.split(",").shift() : ""} {props.piece}</Dsa>
+              </SizeListColumn>
+            )}
           </ProductSizeList>
           <div>
             <b>{props.cathegory}</b>
             <CatListColumn><Wsd>
-              <Link link={`/shop/search/?s=${prodCat1}`}>{prodCat1}</Link> 
-              , <Link link={`/shop/search/?s=${prodBrand}`}>{prodBrand}</Link>
-              , <Link link={`/shop/search/?s=${prodGender}`}>{prodGender}</Link>
-              </Wsd></CatListColumn>
+              <Link to={`/shop/?s=${prodCat1}`}>{prodCat1}</Link>
+              , <Link to={`/shop/?s=${prodBrand}`}>{prodBrand}</Link>
+              , <Link to={`/shop/?s=${prodGender}`}>{prodGender}</Link>
+            </Wsd></CatListColumn>
           </div>
         </SingleProductDetails>
         <ImportantInfo>{props.comment}</ImportantInfo>

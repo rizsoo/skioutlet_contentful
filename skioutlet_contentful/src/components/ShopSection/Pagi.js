@@ -51,13 +51,18 @@ const Pagi = ({ sorting, totalPageNum, searchTerm, pageNum, handlePageClick, set
 
 export const Pagination = styled.div`
   display: flex;
+  max-width: 940px;
+  margin: 0 auto;
   align-items: center;
+  @media (max-width: 600px) {
+    padding: 0 15px;
+}
 `
 export const PageNumber = styled.p`
   font-size: 1rem;
   color: black !important;
 
-  font-weight: 500;
+  font-weight: 600;
   min-width: 40px;
   min-height: 40px;
   padding: 0 6px;

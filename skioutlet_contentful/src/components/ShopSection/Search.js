@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import SearchIcon from "../../assets/img/search.png"
 
 const Search = () => (
-    <SearchBarBox action="/shop/search/" method="get">
+    <SearchBarBox action="/shop/" method="get">
         {/* <input onKeyDown={handleKeyDown} onChange={event => setSearchTerm(event.target.value.toLocaleLowerCase())}  /> */}
         <SearchBar
             type="text"
@@ -47,7 +47,8 @@ export const SearchBarBox = styled.form`
     }
     @media (max-width: 600px) {
         height: 60px;
-        width: calc(75% - 5px);
+        width: 100%;
+        box-shadow: none;
     }
 `
 export const SearchBar = styled.input`

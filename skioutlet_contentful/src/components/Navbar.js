@@ -91,7 +91,7 @@ export const Banner = styled.div`
         margin: 20px 0 12px 0px;
     }
     a {
-        max-width: 900px;
+        max-width: 940px;
         margin: 0 auto;
     }
     @media (max-width: 800px) {
@@ -107,7 +107,7 @@ export const Nav = styled.div`
         gap: 16px;
         margin: 0 auto;
         width: 100%;
-        max-width: 900px;
+        max-width: 940px;
         padding: 10px 0;
         text-transform: uppercase;
         span {

@@ -5,7 +5,7 @@ import wind from "../../assets/img/icons/wind.png"
 import snow from "../../assets/img/icons/snow.png"
 import rain from "../../assets/img/icons/rain.png"
 
-const Section = ({ actions, selectionList, sorting, tag, index, setPageNum, searchTerm, setSearchTerm, whichFilterIsOpen }) => {
+const Section = ({ selectionList, sorting, tag, index, setPageNum, searchTerm, setSearchTerm, whichFilterIsOpen }) => {
 
     const [isHighClass, setHighClass] = useState(false)
     const [subIcon, setSubIcon] = useState([])
@@ -56,7 +56,7 @@ const Section = ({ actions, selectionList, sorting, tag, index, setPageNum, sear
     }, [selectionList])
 
     return (
-        whichFilterIsOpen != "brand" ?
+        whichFilterIsOpen !== "brand" ?
             <SubButton
                 title={newTag}
                 onMouseEnter={() => { setIsVisible("block") }}
@@ -65,9 +65,9 @@ const Section = ({ actions, selectionList, sorting, tag, index, setPageNum, sear
                     setHighClass(!isHighClass);
                     setPageNum(1);
                     setSearchTerm(handlePushToArray(newTag))
-                    actions.router.set(`/shop/search/${sorting == undefined ? "" : `?orderby=${sorting}`}${sorting !== undefined ? "&" : "?"}s=${handlePushToArray(newTag).length > 0 ? handlePushToArray(newTag).split(" ").join("+") : handlePushToArray(newTag)}`)
+                    window.history.pushState({}, '', `/shop/${sorting === undefined ? "" : `?orderby=${sorting}`}${sorting !== undefined ? "&" : "?"}s=${handlePushToArray(newTag).length > 0 ? handlePushToArray(newTag).split(" ").join("+") : handlePushToArray(newTag)}`);
                 }}>
-                {season != null ? <SeasonIcon src={season}></SeasonIcon> : null}
+                {season !== null ? <SeasonIcon src={season}></SeasonIcon> : null}
                 <Icon
                     key={index}
                     src={searchTerm.includes(newTag) ? subIconColored.src : subIcon.src}
@@ -86,7 +86,7 @@ const Section = ({ actions, selectionList, sorting, tag, index, setPageNum, sear
                     setHighClass(!isHighClass);
                     setPageNum(1);
                     setSearchTerm(handlePushToArray(newTag))
-                    actions.router.set(`/shop/search/${sorting == undefined ? "" : `?orderby=${sorting}`}${sorting !== undefined ? "&" : "?"}s=${handlePushToArray(newTag).length > 0 ? handlePushToArray(newTag).split(" ").join("+") : handlePushToArray(newTag)}`)
+                    window.history.pushState({}, '', `/shop/${sorting === undefined ? "" : `?orderby=${sorting}`}${sorting !== undefined ? "&" : "?"}s=${handlePushToArray(newTag).length > 0 ? handlePushToArray(newTag).split(" ").join("+") : handlePushToArray(newTag)}`)
                 }}>
                 <img
                     key={index}

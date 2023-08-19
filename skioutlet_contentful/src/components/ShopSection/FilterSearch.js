@@ -41,13 +41,17 @@ function FilterSearch({ state, searchTerm, setSearchTerm, brandList }) {
 };
 
 export const FilterWordCollector = styled.form`
-    max-width: 1000px;
+    max-width: 940px;
     height: 100%;
     display: flex;
     gap: 10px;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin: 10px auto;
+    @media (max-width: 600px) {
+        width: 100%;
+        padding: 0 15px;
+    }
 `
 export const FilterSearchbarSecondary = styled.div`
     display: flex;

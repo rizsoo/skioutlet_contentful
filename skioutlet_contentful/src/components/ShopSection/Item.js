@@ -13,7 +13,7 @@ function currencyConverter(number) {
   return finalPrice;
 }
 
-const Item = ({ prod, size, lang }) => {
+const Item = ({ prod, size, lang, searchTerm }) => {
 
   let prodTitle = String(prod.title);
   let prodBrand = String(prod.brand);
@@ -34,11 +34,9 @@ const Item = ({ prod, size, lang }) => {
     }
   }
 
-
   useEffect(() => {
     setSource();
-  }, [size])
-
+  }, [searchTerm, size])
 
   return (
     <ItemFrame>
@@ -64,9 +62,10 @@ const Item = ({ prod, size, lang }) => {
 }
 
 export const ItemFrame = styled.div`
-  
   max-height: 450px;
+  min-height: 400px;
   background-color: white;
+  padding-top: 13px;
 
   text-align: center;
 
@@ -74,12 +73,13 @@ export const ItemFrame = styled.div`
 
   @media (max-width: 600px) {
     width: 100%;
+    min-height: 300px;
   }
 `;
 
 export const HeartIcon = styled.img`
   position: absolute;
-  top: 12px;
+  top: 0px;
   right: 12px;
   height: 22px;
 `
@@ -103,7 +103,7 @@ export const ItemContent = styled.div`
   }
   h2 {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     padding: 0 8px;
     margin: 10px 0;
     line-height: 25px;
@@ -117,7 +117,7 @@ export const ItemContent = styled.div`
   }
   @media (max-width: 600px) {
     h2 {
-      font-size: 16px;
+      font-size: 15px;
       line-height: 20px;
     }
   }
@@ -129,7 +129,7 @@ export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 18px 18px 10px 18px;
+  padding: 0px 18px 0px 18px;
 `
 
 export const ItemPrice = styled.div`
@@ -144,13 +144,14 @@ export const ItemPrice = styled.div`
   align-items: center;
     h2 {
       margin: 13px 0;
+      font-size: 20px;
       background-color: #ed2123 !important;
       color: white !important;
     }
     @media (max-width: 600px) {
-      flex-direction: column;
       h2 {
         margin: 3px 0;
+        font-size: 15px;
       }
     }
 `;

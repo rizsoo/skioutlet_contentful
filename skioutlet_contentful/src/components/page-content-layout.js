@@ -77,12 +77,12 @@ export const PageTitle = styled.h2`
     margin: 10px auto;
     padding: 9px 13px 13px 13px;
     background-color: #f1f1f1;
-    max-width: 900px;
-    font-size: 25px;
-    font-weight: 300;
+    max-width: 940px;
+    font-size: 20px;
+    font-weight: 500;
     color: black;
     @media (max-width: 800px) {
-        font-size: 35px;
+        font-size: 20px;
         text-align: left;
     }
 `
@@ -94,13 +94,13 @@ export const CoverImg = styled.img`
 `
 export const Content = styled.div`
     width: 100%;
-    max-width: 900px;
+    max-width: 940px;
     margin: 0 auto;
     background-color: white;
     color: black;
-    padding: 10px 20px;
+    padding: 10px 0px;
     a {
-        color: #279BDE;
+        color: #ed2123;
     }
 `
 export const PageContent = styled.div`
@@ -113,7 +113,7 @@ export const PageContent = styled.div`
     color: black;
     @media (max-width: 650px) {
         flex-direction: column;
-        padding: 0 20px;
+        padding: 0 15px;
     }
 `
 
