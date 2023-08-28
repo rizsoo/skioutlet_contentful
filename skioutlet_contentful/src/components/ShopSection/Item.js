@@ -13,7 +13,7 @@ function currencyConverter(number) {
   return finalPrice;
 }
 
-const Item = ({ prod, size, lang, searchTerm }) => {
+const Item = ({ prod, size, lang, searchTerm, sorting }) => {
 
   let prodTitle = String(prod.title);
   let prodBrand = String(prod.brand);
@@ -36,7 +36,7 @@ const Item = ({ prod, size, lang, searchTerm }) => {
 
   useEffect(() => {
     setSource();
-  }, [searchTerm, size])
+  }, [searchTerm, size, sorting])
 
   return (
     <ItemFrame>
@@ -66,6 +66,7 @@ export const ItemFrame = styled.div`
   min-height: 400px;
   background-color: white;
   padding-top: 13px;
+  border-radius: 10px;
 
   text-align: center;
 
@@ -138,13 +139,14 @@ export const ItemPrice = styled.div`
   color: white;
 
   padding: 5px 0 4px 0;
+  border-radius: 0 0 10px 10px;
 
   display: flex;
   justify-content: center;
   align-items: center;
     h2 {
       margin: 13px 0;
-      font-size: 20px;
+      font-size: 19px;
       background-color: #ed2123 !important;
       color: white !important;
     }

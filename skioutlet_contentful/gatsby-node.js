@@ -84,6 +84,12 @@ exports.createPages = async ({ graphql, actions }) => {
 				  node_locale
 				}
 			}
+            news: allContentfulNews {
+                nodes {
+                    slug
+                    node_locale
+                }
+            }
             products: allCsvData {
                 nodes {
                     sku
@@ -114,6 +120,18 @@ exports.createPages = async ({ graphql, actions }) => {
         })
     })
 
+    // Contentful news
+    data.news.nodes.forEach(node => {
+        createPage({
+            path: (node.node_locale === "hu") ? `/${node.slug === "home" ? `` : (!node.slug.includes("_") && `${node.slug}`)}` : ((node.slug === "home") ? `/${node.node_locale}` : `/${node.node_locale}/${node.slug}`),
+            component: path.resolve(`src/templates/news-template.js`),
+            context: {
+                slug: node.slug,
+                node_locale: node.node_locale
+            }
+        })
+    })
+
     // Products hu pages
     data.products.nodes.forEach(node => {
         createPage({
@@ -127,18 +145,18 @@ exports.createPages = async ({ graphql, actions }) => {
         })
     })
 
-   // Products en pages
-   data.products.nodes.forEach(node => {
-    createPage({
-        path: (`en/product/${node.img}`),
-        component: path.resolve(`src/templates/product-template.js`),
-        context: {
-            slug: `product/${node.img}`,
-            node_locale: "en",
-            details: node
-        }
+    // Products en pages
+    data.products.nodes.forEach(node => {
+        createPage({
+            path: (`en/product/${node.img}`),
+            component: path.resolve(`src/templates/product-template.js`),
+            context: {
+                slug: `product/${node.img}`,
+                node_locale: "en",
+                details: node
+            }
+        })
     })
-})
 
 
     Array.from({ length: 100 }, (v, k) => k + 1).forEach(node => {

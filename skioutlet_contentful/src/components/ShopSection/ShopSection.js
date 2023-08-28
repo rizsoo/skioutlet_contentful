@@ -157,7 +157,11 @@ export const ShopSection = ({ lang, slug, products }) => {
     },
   ];
 
-  console.log(searchTerm);
+  const handleSelectChange = (event) => {
+    const newValue = event.target.value;
+    window.history.replaceState(null, "", slug.includes("?") ? `${slug}&orderby=${event.target.value}` : `${slug}/?orderby=${event.target.value}`)
+    setSorting(newValue);
+  };
 
   return (
     <ShopContent>
@@ -235,10 +239,7 @@ export const ShopSection = ({ lang, slug, products }) => {
         pageNum={pageNum}
         setPageNum={setPageNum}
       />
-      {/* <Sorting action="/shop/search/" onInput={() => {
-        setSorting(event.target.value)
-        actions.router.set(slug.includes("?") ? `${slug}&orderby=${event.target.value}` : `${slug}search/?orderby=${event.target.value}`)
-      }}>
+      {/* <Sorting action="/shop/" onInput={handleSelectChange}>
         <option name="orderby" value="name" defaultValue={orderNameOnly === "name"}>Név szerint</option>
         <option name="orderby" value="priceLow" defaultValue={orderNameOnly === "priceLow"}>Legdrágább</option>
         <option name="orderby" value="priceHigh" defaultValue={orderNameOnly === "priceHigh"}>Legolcsóbb</option>
@@ -262,7 +263,7 @@ export const ShopSection = ({ lang, slug, products }) => {
 }
 
 export const ShopContent = styled.div`
-  margin: 5px -20px;
+  margin: 10px -20px;
 `;
 export const FilterHeader = styled.div`
   display: flex;
@@ -379,6 +380,7 @@ export const SizeTag = styled.div`
 `
 export const Sorting = styled.select`
     margin-top: 10px;
+    margin-left: 20px;
     border: none;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     background-color: white;

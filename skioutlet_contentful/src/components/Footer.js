@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
-import { BsFacebook, BsInstagram } from 'react-icons/bs'
 
 export const Footer = ({ footer, lang }) => {
     return (
@@ -9,7 +8,7 @@ export const Footer = ({ footer, lang }) => {
             <FooterBox>
                 <Content>
                     <List>
-                        <li className='comment' style={{ color: "white", fontSize: "13px", fontWeight: "300", marginBottom: "10px" }}>Egyéb oldalak</li>
+                        <li className='comment' style={{ color: "white", fontSize: "12px", fontWeight: "300", marginBottom: "10px" }}>Egyéb oldalak</li>
                         {footer.elements.map((el, i) => {
                             return (
                                 <Link key={i} to={lang.node_locale === "hu" ? `/${el.slug}` : `/${el.node_locale}/${el.slug}`} ><MenuElement >{el.title}</MenuElement></Link>
@@ -29,8 +28,7 @@ export const Footer = ({ footer, lang }) => {
 export const FooterBox = styled.div`
     width: 100vw;
     height: 100%;
-    min-height: 170px;
-    padding: 40px 0;
+    padding: 35px 0;
     background-color: #ed2123;
     display: flex;
     align-items: center;
@@ -92,6 +90,10 @@ export const List = styled.ul`
         list-style: none;
         margin: 0;
         font-weight: 600;
+    }
+    a {
+        font-size: 17px;
+        text-transform: uppercase;
     }
     .comment {
         @media (max-width: 650px) {

@@ -6,10 +6,26 @@ import { BsFacebook, BsInstagram, BsYoutube } from 'react-icons/bs'
 import { TiThMenu } from 'react-icons/ti'
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 import logo from "../assets/skioutlet_logo_2020.png"
+import en from '../assets/img/en.png'
+import hu from '../assets/img/hu.png'
 
 export const Navbar = ({ navbar, lang }) => {
 
     const [isOpen, setIsOpen] = useState(false);
+
+    const languages = [
+        {
+            code: en,
+            name: 'English',
+            country_code: 'en'
+        },
+        {
+            code: hu,
+            name: 'Magyar',
+            country_code: 'hu'
+        }
+    ]
+
 
     return (
         <NavBox>
@@ -41,6 +57,13 @@ export const Navbar = ({ navbar, lang }) => {
                             <li key={5}><a href={'https://www.facebook.com/skioutletstore'} target='_blank' rel="noreferrer"><BsFacebook /></a></li>
                             <li key={6}><a href={'https://www.instagram.com/skioutletbudapest'} target='_blank' rel="noreferrer"><BsInstagram /></a></li>
                             <li key={7}><a href={'https://www.youtube.com/user/skioutlet'} target='_blank' rel="noreferrer"><BsYoutube /></a></li>
+                            <Flag>
+                                {languages.filter(el => el.country_code !== lang.node_locale).map(({ code, name, country_code }) => (
+                                    <Link key={name} to={lang.slug === "home" && lang.node_locale === "en" ? '/' : lang.slug === "home" ? `/${country_code}` : `/${country_code}/${lang.slug}`}>
+                                        <img src={code} alt='' key={code} />
+                                    </Link>
+                                ))}
+                            </Flag>
                         </Socials>
                     </ul>
                 </Nav>
@@ -221,5 +244,35 @@ export const Socials = styled.span`
     @media (max-width: 800px) {
         margin-top: 20px !important;
         flex-direction: row !important;
+    }
+`
+
+export const Flag = styled.div`
+    display: flex;
+    align-items: center;
+    transition: all ease-in-out 0.3s;
+    background-color: white;
+    border-radius: 15px;
+    padding: 2.3px;
+    img {
+        width: 24px;
+        height: 24px;
+        min-width: 24px !important;
+        cursor: pointer;
+        z-index: 5;
+        transition: all ease-in-out 0.1s;
+    }
+    a {
+        display: flex;
+    }
+    img:hover {
+        z-index: 15;
+    }
+    @media (max-width: 650px) {
+        img {
+            width: 35px;
+            height: 35px;
+            min-width: 35px !important;
+        }
     }
 `
