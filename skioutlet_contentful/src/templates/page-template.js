@@ -59,6 +59,27 @@ query MyQuery($slug: String, $node_locale: String) {
               contentful_id
               title
             }
+            ... on ContentfulNewsList {
+              __typename
+              contentful_id
+              title
+              news {
+                shortContext {
+                  shortContext
+                }
+                content {
+                  raw
+                }
+                id
+                createdAt
+                contentful_id
+                image {
+                  url
+                }
+                slug
+                title
+              }
+            }
          }  
         }
         contentful_id

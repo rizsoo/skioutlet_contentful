@@ -19,7 +19,7 @@ const Mosaik = ({ sorting, filteredProducts, nextNum, size, lang, searchTerm }) 
             {filteredProducts.length > 0 ?
                 renderSorting(sorting).filter((item, i) =>
                     i >= nextNum - 16 & i < nextNum).map((prod, index) =>
-                        <Item key={index} prod={prod} size={size} lang={lang} searchTerm={searchTerm} />) : <h2 className='sorry'>Nem található termék...</h2>}
+                        <Item key={index} prod={prod} size={size} lang={lang} searchTerm={searchTerm} sorting={sorting} />) : <h2 className='sorry'>Nem található termék...</h2>}
         </ProductsList>
     )
 }

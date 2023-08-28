@@ -8,11 +8,10 @@ import { renderRichText } from "gatsby-source-contentful/rich-text"
 import { Footer } from './Footer'
 import { ShopSection } from '../components/ShopSection/ShopSection';
 import SingleProductPage from './ShopSection/SingleProductPage'
-import { Parse } from '../../parse'
+import NewsList from './NewsList/NewsList'
 
+export const PageContentLayout = ({ title, content, navbar, footer, details, path, products, product, image }) => {
 
-export const PageContentLayout = ({ title, content, navbar, footer, details, path, products, product }) => {
-    console.log(details);
     const options = {
         renderNode: {
             [BLOCKS.EMBEDDED_ASSET]: (node) => {
@@ -47,6 +46,14 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
                                 products={products}
                             />
                         )
+                    case "ContentfulNewsList":
+                        return (
+                            <NewsList
+                                props={data.news}
+                                lang={details}
+                                slug={path}
+                            />
+                        )
                     default:
                         return null
                 }
@@ -57,21 +64,25 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
     const output = content && renderRichText(content, options)
 
     return (
-        <div>
+        <Page>
             <Navbar navbar={navbar} lang={details} />
-            <div style={{ minHeight: "calc(100vh - 468px)" }}>
-                {((details.slug !== "home") && (details.slug !== "shop") && (!details.slug.includes("product"))) && <PageTitle isHome={details.slug}>{title}</PageTitle>}
+            <div style={{ minHeight: "calc(100vh - 421px)" }}>
                 <PageContent>
                     <Content>
+                        {image ? <CoverImg src={image.url} /> : null}
+                        {((details.slug !== "home") && (details.slug !== "shop") && (!details.slug.includes("product"))) && <PageTitle isHome={details.slug}>{title}</PageTitle>}
                         {output}
                     </Content>
                 </PageContent>
             </div>
             <Footer footer={footer} lang={details} />
-            <Localization data={details} path={path} />
-        </div>
+            {/* <Localization data={details} path={path} /> */}
+        </Page>
     )
 }
+
+export const Page = styled.div`
+`
 
 export const PageTitle = styled.h2`
     margin: 10px auto;
@@ -87,10 +98,14 @@ export const PageTitle = styled.h2`
     }
 `
 export const CoverImg = styled.img`
-    max-height: 300px;
+    max-height: 350px;
     object-fit: cover;
+    object-position: 0 -80px;
     width: 100%;
-    margin-bottom: 10px;
+    @media (max-width: 650px) {
+        margin-top: 5px;
+        object-position: center;
+    }
 `
 export const Content = styled.div`
     width: 100%;
@@ -98,7 +113,7 @@ export const Content = styled.div`
     margin: 0 auto;
     background-color: white;
     color: black;
-    padding: 10px 0px;
+    padding: 0px;
     a {
         color: #ed2123;
     }
