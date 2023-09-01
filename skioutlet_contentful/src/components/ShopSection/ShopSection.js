@@ -162,7 +162,7 @@ export const ShopSection = ({ lang, slug, products }) => {
     window.history.replaceState(null, "", slug.includes("?") ? `${slug}&orderby=${event.target.value}` : `${slug}/?orderby=${event.target.value}`)
     setSorting(newValue);
   };
-  console.log(lang);
+
   return (
     <ShopContent>
       <FilterHeader>
