@@ -69,8 +69,8 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
             <div style={{ minHeight: "calc(100vh - 421px)" }}>
                 <PageContent>
                     <Content>
-                        {image ? <CoverImg src={image.url} /> : null}
-                        {((details.slug !== "home") && (details.slug !== "shop") && (!details.slug.includes("product"))) && <PageTitle isHome={details.slug}>{title}</PageTitle>}
+                        {image && (details.slug !== "home") ? <CoverImg src={image.url} /> : null}
+                        {((details.slug !== "home") && (details.slug !== "shop") && (details.slug !== "versenyunk") && (!details.slug.includes("product"))) && <PageTitle isHome={details.slug}>{title}</PageTitle>}
                         {output}
                     </Content>
                 </PageContent>
@@ -82,6 +82,7 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
 }
 
 export const Page = styled.div`
+
 `
 
 export const PageTitle = styled.h2`

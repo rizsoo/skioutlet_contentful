@@ -29,7 +29,7 @@ ul {
 }
 
 li {
-    list-style: "×";
+    list-style: "÷";
     margin-left: 20px;
 }
 
@@ -60,6 +60,7 @@ li {
 
 p {
     margin-bottom: 12px;
+    white-space: pre-wrap;
 }
 
 img {
