@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Navbar } from './Navbar'
-import { Localization } from './Localization'
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import { renderRichText } from "gatsby-source-contentful/rich-text"
 import { Footer } from './Footer'
@@ -76,7 +75,6 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
                 </PageContent>
             </div>
             <Footer footer={footer} lang={details} />
-            {/* <Localization data={details} path={path} /> */}
         </Page>
     )
 }

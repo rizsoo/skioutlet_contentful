@@ -332,6 +332,7 @@ export const DelButton = styled.s`
   img {
     max-width: 30px;
     margin-left: 3px;
+    margin-top: 2px;
   }
   @media (max-width: 600px) {
     img {

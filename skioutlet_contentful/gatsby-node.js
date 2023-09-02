@@ -158,7 +158,7 @@ exports.createPages = async ({ graphql, actions }) => {
         })
     })
 
-
+    // Shop page num pages HU
     Array.from({ length: 100 }, (v, k) => k + 1).forEach(node => {
         createPage({
             path: (`/shop/pagenum_${node}`),
@@ -166,6 +166,44 @@ exports.createPages = async ({ graphql, actions }) => {
             context: {
                 slug: `/shop/pagenum_${node}`,
                 node_locale: "hu",
+            }
+        })
+    })
+    // EN
+    Array.from({ length: 100 }, (v, k) => k + 1).forEach(node => {
+        createPage({
+            path: (`/en/shop/pagenum_${node}`),
+            component: path.resolve(`src/templates/shop-template.js`),
+            context: {
+                slug: `en/shop/pagenum_${node}`,
+                node_locale: "en",
+            }
+        })
+    })
+
+
+    // Categories pages for SEO in HUN
+    const categories = Array.from(new Set(data.products.nodes.map(el => el.cat1)));
+    categories.forEach(node => {
+        let correctSlug = node.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+        createPage({
+            path: `/shop/${correctSlug}`,
+            component: path.resolve(`src/templates/shop-template.js`),
+            context: {
+                slug: `/shop/${correctSlug}`,
+                node_locale: 'hu'
+            }
+        })
+    })
+    //EN
+    categories.forEach(node => {
+        let correctSlug = node.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+        createPage({
+            path: `en/shop/${correctSlug}`,
+            component: path.resolve(`src/templates/shop-template.js`),
+            context: {
+                slug: `en/shop/${correctSlug}`,
+                node_locale: 'en'
             }
         })
     })

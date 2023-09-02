@@ -64,9 +64,6 @@ query MyQuery($slug: String, $node_locale: String) {
               contentful_id
               title
               news {
-                shortContext {
-                  shortContext
-                }
                 content {
                   raw
                 }
