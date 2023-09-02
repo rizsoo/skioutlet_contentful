@@ -8,7 +8,7 @@ export const Footer = ({ footer, lang }) => {
             <FooterBox>
                 <Content>
                     <List>
-                        <li className='comment' style={{ color: "white", fontSize: "12px", fontWeight: "300", marginBottom: "10px" }}>Egyéb oldalak</li>
+                        <li className='comment' style={{ color: "white", fontSize: "13px", fontWeight: "500", marginBottom: "10px" }}>Egyéb</li>
                         {footer.elements.map((el, i) => {
                             return (
                                 <Link key={i} to={lang.node_locale === "hu" ? `/${el.slug}` : `/${el.node_locale}/${el.slug}`} ><MenuElement >{el.title}</MenuElement></Link>
@@ -89,10 +89,10 @@ export const List = styled.ul`
     li {
         list-style: none;
         margin: 0;
-        font-weight: 600;
+        font-weight: 700;
     }
     a {
-        font-size: 17px;
+        font-size: 20px;
         text-transform: uppercase;
     }
     .comment {

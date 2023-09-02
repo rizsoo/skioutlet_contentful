@@ -8,6 +8,7 @@ import { Footer } from './Footer'
 import { ShopSection } from '../components/ShopSection/ShopSection';
 import SingleProductPage from './ShopSection/SingleProductPage'
 import NewsList from './NewsList/NewsList'
+import HomepageSection from './HomepageSection/HomepageSection'
 
 export const PageContentLayout = ({ title, content, navbar, footer, details, path, products, product, image }) => {
 
@@ -50,6 +51,15 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
                             <NewsList
                                 props={data.news}
                                 lang={details}
+                                slug={path}
+                            />
+                        )
+                    case "ContentfulHomepageSection":
+                        return (
+                            <HomepageSection
+                                props={data.news}
+                                lang={details}
+                                products={products}
                                 slug={path}
                             />
                         )

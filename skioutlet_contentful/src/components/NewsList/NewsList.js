@@ -15,7 +15,7 @@ const NewsList = ({ props, lang }) => {
                 <VItemText>
                   <h3 style={{ color: "#ed2123" }}>{lang.node_locale === "hu" ? "Legfrissebb!" : "Most recent!"}</h3>
                   <EventTitle>{el.title}</EventTitle>
-                  {/* {el.shortContext && <p>{el.shortContext.shortContext}</p>} */}
+                  {el.short && <p>{el.short}</p>}
                 </VItemText>
               </CurrentRaceItem>
             </Link>
@@ -30,7 +30,7 @@ const NewsList = ({ props, lang }) => {
                 <img src={el.image.url} />
                 <SmallItemText>
                   <EventTitle>{el.title}</EventTitle>
-                  {/* {el.shortContext && <p>{el.shortContext.shortContext}</p>} */}
+                  {el.short && <p>{el.short}</p>}
                 </SmallItemText>
               </VItem>
             </Link>

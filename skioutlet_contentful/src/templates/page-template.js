@@ -7,7 +7,7 @@ import { ThreeDots } from 'react-loader-spinner'
 import { SEO } from '../components/Seo';
 import { PageContentLayout } from '../components/page-content-layout';
 
-const PageTemplate = ({ data: { page, navbar, footer }, path }) => {
+const PageTemplate = ({ data: { page, navbar, footer, products }, path }) => {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -29,6 +29,7 @@ const PageTemplate = ({ data: { page, navbar, footer }, path }) => {
           navbar={navbar}
           footer={footer}
           details={page}
+          products={products}
           path={path}
         />
         :
@@ -59,6 +60,38 @@ query MyQuery($slug: String, $node_locale: String) {
               contentful_id
               title
             }
+            ... on ContentfulHomepageSection {
+              __typename
+              contentful_id
+              title
+              news {
+                ... on ContentfulSimpleCard {
+                  id
+                  __typename
+                  title
+                  short
+                  image {
+                    url
+                  }
+                }
+                ... on ContentfulProductCollection {
+                  id
+                  __typename
+                  title
+                  searchTerm
+                }
+                ... on ContentfulNews {
+                  id
+                  __typename
+                  title
+                  short
+                  slug
+                  image {
+                    url
+                  }
+                }
+              }
+            }
             ... on ContentfulNewsList {
               __typename
               contentful_id
@@ -75,6 +108,7 @@ query MyQuery($slug: String, $node_locale: String) {
                 }
                 slug
                 title
+                short
               }
             }
          }  
@@ -107,6 +141,21 @@ query MyQuery($slug: String, $node_locale: String) {
         node_locale
         }
     }
+    products: allCsvData {
+      nodes {
+          sku
+          title
+          img
+          brand
+          cat1
+          cat2
+          price
+          saleprice
+          isonsale
+          stock
+          size
+      }
+  }
 }
 `
 

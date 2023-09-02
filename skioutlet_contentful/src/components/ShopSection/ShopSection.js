@@ -21,7 +21,6 @@ import trashIcon from '../../assets/img/recycling.png'
 export const ShopSection = ({ lang, slug, products }) => {
 
   const location = window.location.search
-  console.log(location);
 
   // UTF Decoder
   function urldecode(str) {
@@ -33,7 +32,6 @@ export const ShopSection = ({ lang, slug, products }) => {
 
   // Searchterm
   const searchResult = location.includes("s=") ? location.split("s=").pop() : '';
-  console.log(searchResult);
 
   const queryResult = searchResult != null && searchResult.length > 0 ? searchResult.toLocaleLowerCase() : '';
   const queryLast = queryResult.includes("+") ? queryResult.split("+").join(" ") : queryResult;
@@ -189,7 +187,7 @@ export const ShopSection = ({ lang, slug, products }) => {
       </FilterHeader>
       {/* Cleancode */}
       {isFilterOpen ? <FilterButton>
-        {sectionList.map((tag, index, arr) => {
+        {sectionList.filter(el => el !== "").map((tag, index, arr) => {
           // console.log(whichFilterIsOpen);
           if (whichFilterIsOpen != "size") {
             return (
