@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import HeartIco from '../../assets/img/icons/heart.png'
 import RedHeartIco from '../../assets/img/icons/redheart.png'
 
-function currencyConverter(number) {
+export function currencyConverter(number) {
   let priceSep = String(number).split("");
   let priceStr = priceSep.splice(priceSep.length - 3).join("");
   let finalPrice = priceSep.join("") + " " + priceStr + " Ft";
