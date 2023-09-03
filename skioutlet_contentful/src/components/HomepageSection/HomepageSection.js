@@ -15,10 +15,10 @@ const HomepageSection = ({ props, products }) => {
         <Frame>
             {props.map((el) => {
                 let res = el.searchTerm && el.searchTerm.map(el => el.toLowerCase())
-                console.log(res);
+                // console.log(res);
                 let filtered = res && products.nodes.filter(prod => res.every(elem => prod.title.toLowerCase().includes(elem))).slice(0, 4)
                 // console.log(products.nodes.filter(prod => words.some(elem => prod.title.toLowerCase().includes(elem))));
-                console.log(filtered);
+                // console.log(filtered);
                 switch (el.__typename) {
                     case "ContentfulSimpleCard":
                     case "ContentfulNews":
@@ -62,9 +62,9 @@ export const Frame = styled.div`
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr); 
     gap: 25px;
-
+    
     a {
-        color: black;
+        color: black !important;
     }
 
     div:first-child {
