@@ -64,7 +64,7 @@ export const Frame = styled.div`
     gap: 25px;
 
     a {
-        color: inherit;
+        color: black;
     }
 
     div:first-child {
