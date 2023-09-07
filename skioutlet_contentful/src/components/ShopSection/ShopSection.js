@@ -9,6 +9,7 @@ import FilterSearch from './FilterSearch';
 import Pagi from './Pagi';
 import Mosaik from './Mosaik'
 import { Link } from 'gatsby';
+import { FaHeart } from 'react-icons/fa';
 
 //icons
 import genderIcon from '../../assets/img/genderIcon.png'
@@ -184,6 +185,10 @@ export const ShopSection = ({ lang, slug, products }) => {
             )
           })}
         </FilterBar>
+        {/* <Favorites>
+          <p>Kedvenceim</p>
+          <FaHeart />
+        </Favorites> */}
       </FilterHeader>
       {/* Cleancode */}
       {isFilterOpen ? <FilterButton>
@@ -273,6 +278,7 @@ export const FilterHeader = styled.div`
   margin-bottom: 10px;
   max-width: 940px;
   margin: 0 auto;
+  position: relative;
   @media (max-width: 600px) {
     flex-direction: column;
     padding: 0 15px;
@@ -387,5 +393,24 @@ export const Sorting = styled.select`
     border-radius: 5px;
     @media (max-width: 600px) {
       font-size: 1.4rem;
+    }
+`
+
+export const Favorites = styled.div`
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 7px;
+    p {
+      margin: 0;
+      font-weight: 600;
+      color: #ed2123;
+    }
+    svg {
+      height: 25px;
+      width: 25px;
+      color: #ed2123;
     }
 `

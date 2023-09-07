@@ -2,8 +2,14 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import { HiArrowCircleRight, HiArrowCircleLeft } from 'react-icons/hi';
+
+import { RxValueNone } from 'react-icons/rx';
 
 let SingleProductPage = ({ props, lang, slug, product, products }) => {
+  const [is404, setIs404] = useState(false);
+  const [isSecondImg, setIsSecondImg] = useState(false);
+  const [sliderNum, setSliderNum] = useState(1)
 
   //data
   let result = products.nodes.filter(el => el.img === product.img);
@@ -41,10 +47,12 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
 
   // Get image
   const [imgData, setImgData] = useState([])
+  let link = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}${sliderNum < 2 ? "" : ("_" + sliderNum)}.jpg`
+
   function setSource() {
     try {
-      const src = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}.jpg`
-      setImgData({ src });
+      const src = link;
+      setImgData(src);
     }
     catch (err) {
       console.log("img doesn't exists");
@@ -53,22 +61,45 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
 
   useEffect(() => {
     setSource();
-  }, [prodBrand])
+  }, [prodBrand, sliderNum])
 
+  // Check if there is any image
+  const checkLink = () => {
+    const img = new Image();
+    img.src = link;
+
+    img.onerror = () => {
+      setIs404(true);
+    };
+
+    img.onload = () => {
+      setIs404(false);
+    };
+  };
+  checkLink()
+
+  // Check for second image
+  const checkSecondImage = () => {
+    const img = new Image();
+    img.src = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}_${sliderNum + 1}.jpg`;
+
+    img.onerror = () => {
+      setIsSecondImg(false);
+    };
+
+    img.onload = () => {
+      setIsSecondImg(true);
+    };
+  };
+  checkSecondImage()
 
   return (
     <ProductContent>
-      <img src={imgData.src} alt={prodImg} />
-      {/* {imgData.map((slide, index) => { 
-          return (
-            <div className={index === current ? "active" : ""} key={index}>
-                    {index === current && (<img className='single-prod-img' src={slide} alt="" />)}                    
-            </div>
-          )
-        })}
-        {current > 0 ? <div onClick={prevSlide} className="arrows prev-arrow"><ion-icon name="arrow-back-circle-outline"></ion-icon></div> : null}
-        {current < imgData.length - 1 ? <div onClick={nextSlide} className="arrows next-arrow"><ion-icon name="arrow-forward-circle-outline"></ion-icon></div> : null}
-       */}
+      <ImageContainer>
+        {!is404 ? <img src={imgData} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
+        {isSecondImg ? <HiArrowCircleRight onClick={() => setSliderNum(sliderNum + 1)} style={{ right: "5px" }} /> : null}
+        {sliderNum < 2 ? null : <HiArrowCircleLeft onClick={() => setSliderNum(sliderNum - 1)} style={{ left: "5px" }} />}
+      </ImageContainer>
       <ProductDetailBox>
         <h2>{prodTitle}</h2>
         <SinglePriceTag>
@@ -121,6 +152,26 @@ export const ProductContent = styled.div`
     flex-wrap: wrap;
     flex-direction: column;
   }
+`
+export const ImageContainer = styled.div`
+    position: relative;
+    img {
+      aspect-ratio: 0.75;
+      object-fit: contain;
+    }
+    svg {
+      position: absolute;
+      top: 10px;
+      // transform: translateY(-50%);
+      color:#ed2123;
+      width: 32px;
+      height: 32px;
+      transition: all ease 0.2s;
+    }
+    svg:hover {
+      color: #cc181a;
+      transform: scale(1.1);
+    }
 `
 export const ProductDetailBox = styled.div`
     background-color: rgb(239, 239, 239);
@@ -216,6 +267,37 @@ export const ImportantInfo = styled.p`
 `
 export const ProdSub = styled.p`
   font-size: 12px;
+`
+
+export const NoImage = styled.div`
+    width: 100%;
+
+    color: lightgrey;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    svg {
+      width: 50px;
+      height: 50px;
+    }
+    h3 {
+      margin: 0;
+    }
+    @media (min-width: 650px) {
+      min-height: 250px;
+      // border: 3px #f1f1f1 solid;
+      svg {
+        width: 100px;
+        height: 100px;
+      }
+      h3 {
+        font-size: 30px;
+      }
+    }
 `
 
 export default SingleProductPage

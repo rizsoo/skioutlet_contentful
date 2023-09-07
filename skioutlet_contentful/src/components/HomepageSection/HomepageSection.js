@@ -1,8 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby';
+import { useState } from 'react';
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 
 const HomepageSection = ({ props, products }) => {
+    const [sliderNum, setsliderNum] = useState(4)
 
     function currencyConverter(number) {
         let priceSep = String(number).split("");
@@ -16,7 +19,7 @@ const HomepageSection = ({ props, products }) => {
             {props.map((el) => {
                 let res = el.searchTerm && el.searchTerm.map(el => el.toLowerCase())
                 // console.log(res);
-                let filtered = res && products.nodes.filter(prod => res.every(elem => prod.title.toLowerCase().includes(elem))).slice(0, 4)
+                let filtered = res && products.nodes.filter(prod => res.every(elem => prod.title.toLowerCase().includes(elem))).slice(sliderNum - 4, sliderNum)
                 // console.log(products.nodes.filter(prod => words.some(elem => prod.title.toLowerCase().includes(elem))));
                 // console.log(filtered);
                 switch (el.__typename) {
@@ -35,6 +38,8 @@ const HomepageSection = ({ props, products }) => {
                     case "ContentfulProductCollection":
                         return (
                             <ProductFrame>
+                                <IoIosArrowForward onClick={() => setsliderNum(sliderNum + 4)} />
+                                {sliderNum < 5 ? null : <IoIosArrowBack onClick={() => setsliderNum(sliderNum < 5 ? sliderNum : sliderNum - 4)} />}
                                 <h3>{el.title}</h3>
                                 <RollFrame>
                                     {filtered.map(el => {
@@ -118,6 +123,8 @@ export const ProductFrame = styled.div`
     justify-content: space-between;
     background-color: white;
 
+    position: relative;
+
     box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
     border-radius: 8px;        
     padding: 15px;
@@ -125,9 +132,34 @@ export const ProductFrame = styled.div`
     max-height: 260px;
     h3 {
         margin: 0;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    svg {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 25px;
+        width: 25px;
+    }
+    svg:first-child {
+        right: 5px;
+    }
+    svg:nth-child(2) {
+        left: 5px;
     }
     @media (max-width: 650px) {
         max-height: unset;
+        text-align: center;
+        svg {
+            top: 27px;
+        }
+        h3 {
+            margin-bottom: 15px;
+        }
     }
 `
 export const RollFrame = styled.div`

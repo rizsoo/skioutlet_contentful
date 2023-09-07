@@ -5,6 +5,9 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import HeartIco from '../../assets/img/icons/heart.png'
 import RedHeartIco from '../../assets/img/icons/redheart.png'
+import { RxValueNone } from 'react-icons/rx';
+import { FiHeart } from 'react-icons/fi';
+import { FaHeart } from 'react-icons/fa';
 
 export function currencyConverter(number) {
   let priceSep = String(number).split("");
@@ -13,7 +16,7 @@ export function currencyConverter(number) {
   return finalPrice;
 }
 
-const Item = ({ prod, size, lang, searchTerm, sorting }) => {
+const Item = ({ prod, size, lang, searchTerm, items, setItems, sorting }) => {
 
   let prodTitle = String(prod.title);
   let prodBrand = String(prod.brand);
@@ -23,6 +26,7 @@ const Item = ({ prod, size, lang, searchTerm, sorting }) => {
   const [imgData, setImgData] = useState([])
   const [loaded, setLoaded] = useState(false)
   const [heartStatus, setHeartStatus] = useState(HeartIco)
+  const [is404, setIs404] = useState(false);
 
   function setSource() {
     try {
@@ -34,29 +38,55 @@ const Item = ({ prod, size, lang, searchTerm, sorting }) => {
     }
   }
 
+  const checkLink = () => {
+    const img = new Image();
+    img.src = imgData.src;
+
+    img.onerror = () => {
+      setIs404(true);
+    };
+
+    img.onload = () => {
+      setIs404(false);
+    };
+  };
+
+
   useEffect(() => {
     setSource();
-  }, [searchTerm, size, sorting])
+  }, [searchTerm, size, sorting, items])
+
+  checkLink()
+
+  function handlePushToArray(elem) {
+    !items.includes(elem) ?
+      setItems([...items, elem])
+      :
+      setItems(items.filter(el => el !== elem));
+    localStorage.setItem(items, JSON.stringify())
+  }
 
   return (
     <ItemFrame>
-      <Link to={generatePath("/:lang/product/:id", {
+      {/* <Link to={generatePath("/:lang/product/:id", {
         id: prodImg,
         lang: lang === "hu" ? "" : "en"
-      })}>
-        <ItemContent>
-          <HeartIcon src={heartStatus} onMouseEnter={() => setHeartStatus(RedHeartIco)} onMouseLeave={() => setHeartStatus(HeartIco)} />
-          <ImageContainer>
-            <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} />
-          </ImageContainer>
-          <h2 className='product-title'>{prodTitle}</h2>
-          {/* <p>{prod.img}</p> */}
-          <ItemPrice>
-            {prod.saleprice === prod.price ? null : <h2><SalePrice>{currencyConverter(prod.price)}</SalePrice></h2>}
-            <h2>{currencyConverter(prod.saleprice)}</h2>
-          </ItemPrice>
-        </ItemContent>
-      </Link>
+      })}> */}
+      <ItemContent>
+        <HeartIcon style={{ color: `${items.includes(prodImg) ? "#ed2123" : "black"}` }} onClick={() => handlePushToArray(prodImg)} >
+          {items.includes(prodImg) ? <FaHeart /> : <FiHeart />}
+        </HeartIcon>
+        <ImageContainer>
+          {!is404 ? <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
+        </ImageContainer>
+        <h2 className='product-title'>{prodTitle}</h2>
+        {/* <p>{prod.img}</p> */}
+        <ItemPrice>
+          {prod.saleprice === prod.price ? null : <h2><SalePrice>{currencyConverter(prod.price)}</SalePrice></h2>}
+          <h2>{currencyConverter(prod.saleprice)}</h2>
+        </ItemPrice>
+      </ItemContent>
+      {/* </Link> */}
     </ItemFrame>
   )
 }
@@ -78,11 +108,14 @@ export const ItemFrame = styled.div`
   }
 `;
 
-export const HeartIcon = styled.img`
+export const HeartIcon = styled.div`
   position: absolute;
   top: 0px;
-  right: 12px;
-  height: 22px;
+  right: 10px;
+  svg {
+    height: 22px;
+    width: 23px;
+  }
 `
 
 export const ItemContent = styled.div`
@@ -163,5 +196,23 @@ export const SalePrice = styled.s`
   color: rgb(233, 147, 147);
   transform: scale(0.5);
 `;
+
+export const NoImage = styled.div`
+    width: 100%;
+
+    color: lightgrey;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    svg {
+      width: 50px;
+      height: 50px;
+    }
+    h3 {
+      margin: 0;
+    }
+`
 
 export default Item

@@ -1,9 +1,17 @@
 import React from 'react'
 import Item from './Item'
 import styled from 'styled-components'
+import { useState, useEffect } from 'react'
 
 const Mosaik = ({ sorting, filteredProducts, nextNum, size, lang, searchTerm }) => {
+    const [items, setItems] = useState([])
+    const [local, setLocal] = useState(localStorage.getItem("items") || "")
 
+    useEffect(() => {
+        localStorage.setItem('items', items);
+    }, [items]);
+
+    console.log(local);
     function renderSorting(val) {
         if (val === "name") {
             return filteredProducts.sort((a, b) => a.title > b.title ? 1 : -1)
@@ -19,7 +27,7 @@ const Mosaik = ({ sorting, filteredProducts, nextNum, size, lang, searchTerm }) 
             {filteredProducts.length > 0 ?
                 renderSorting(sorting).filter((item, i) =>
                     i >= nextNum - 16 & i < nextNum).map((prod, index) =>
-                        <Item key={index} prod={prod} size={size} lang={lang} searchTerm={searchTerm} sorting={sorting} />) : <h2 className='sorry'>Nem található termék...</h2>}
+                        <Item key={index} prod={prod} size={size} lang={lang} searchTerm={searchTerm} items={items} setItems={setItems} sorting={sorting} />) : <h2 className='sorry'>Nem található termék...</h2>}
         </ProductsList>
     )
 }

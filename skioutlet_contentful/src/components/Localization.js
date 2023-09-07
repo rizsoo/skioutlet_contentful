@@ -6,7 +6,7 @@ import hu from '../assets/img/hu.png'
 import { Link } from 'gatsby';
 
 export const Localization = ({ data, path }) => {
-    console.log(data);
+
     const [isOpen, setIsOpen] = useState(true);
 
     const languages = [

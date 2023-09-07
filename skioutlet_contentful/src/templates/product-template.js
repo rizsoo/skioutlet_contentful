@@ -9,9 +9,7 @@ import { PageContentLayout } from '../components/page-content-layout';
 
 const ProductTemplate = ({ data: { page, navbar, footer, products }, path, pageContext }) => {
 
-    console.log(pageContext);
     let product = pageContext.details
-    console.log(product);
 
     const [isLoaded, setIsLoaded] = useState(false);
 
