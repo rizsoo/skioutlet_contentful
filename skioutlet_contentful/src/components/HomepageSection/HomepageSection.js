@@ -126,6 +126,9 @@ export const ProductFrame = styled.div`
     h3 {
         margin: 0;
     }
+    @media (max-width: 650px) {
+        max-height: unset;
+    }
 `
 export const RollFrame = styled.div`
     // border: red solid 1px;
@@ -137,6 +140,9 @@ export const RollFrame = styled.div`
     justify-content: start;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
+    @media (max-width: 650px) {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
 `
 export const ProductElements = styled.span`
     display: grid;

@@ -4,10 +4,12 @@ import styled from "styled-components"
 
 const NewsList = ({ props, lang }) => {
 
+  let sortedData = props.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
   return (
     <>
       <CurrentRace>
-        {[props[0]].map((el, i) => {
+        {[sortedData[0]].map((el, i) => {
           return (
             <Link key={i} to={lang.node_locale === "hu" ? `/${el.slug}` : `/en/${el.slug}`}>
               <CurrentRaceItem >
@@ -23,7 +25,7 @@ const NewsList = ({ props, lang }) => {
         })}
       </CurrentRace>
       <VItems>
-        {props.slice(1).map((el, i) => {
+        {sortedData.slice(1).map((el, i) => {
           return (
             <Link key={i} to={lang.node_locale === "hu" ? `/${el.slug}` : `/en/${el.slug}`}>
               <VItem >
