@@ -167,6 +167,8 @@ export const ImageContainer = styled.div`
       width: 32px;
       height: 32px;
       transition: all ease 0.2s;
+      background-color: white;
+      border-radius: 50%;
     }
     svg:hover {
       color: #cc181a;

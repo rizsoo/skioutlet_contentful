@@ -11,7 +11,6 @@ const Mosaik = ({ sorting, filteredProducts, nextNum, size, lang, searchTerm }) 
         localStorage.setItem('items', items);
     }, [items]);
 
-    console.log(local);
     function renderSorting(val) {
         if (val === "name") {
             return filteredProducts.sort((a, b) => a.title > b.title ? 1 : -1)
