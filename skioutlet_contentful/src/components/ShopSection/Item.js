@@ -68,25 +68,25 @@ const Item = ({ prod, size, lang, searchTerm, items, setItems, sorting }) => {
 
   return (
     <ItemFrame>
-      {/* <Link to={generatePath("/:lang/product/:id", {
+      <Link to={generatePath("/:lang/product/:id", {
         id: prodImg,
         lang: lang === "hu" ? "" : "en"
-      })}> */}
-      <ItemContent>
-        <HeartIcon style={{ color: `${items.includes(prodImg) ? "#ed2123" : "black"}` }} onClick={() => handlePushToArray(prodImg)} >
-          {items.includes(prodImg) ? <FaHeart /> : <FiHeart />}
-        </HeartIcon>
-        <ImageContainer>
-          {!is404 ? <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
-        </ImageContainer>
-        <h2 className='product-title'>{prodTitle}</h2>
-        {/* <p>{prod.img}</p> */}
-        <ItemPrice>
-          {prod.saleprice === prod.price ? null : <h2><SalePrice>{currencyConverter(prod.price)}</SalePrice></h2>}
-          <h2>{currencyConverter(prod.saleprice)}</h2>
-        </ItemPrice>
-      </ItemContent>
-      {/* </Link> */}
+      })}>
+        <ItemContent>
+          <HeartIcon style={{ color: `${items.includes(prodImg) ? "#ed2123" : "black"}` }} onClick={() => handlePushToArray(prodImg)} >
+            {items.includes(prodImg) ? <FaHeart /> : <FiHeart />}
+          </HeartIcon>
+          <ImageContainer>
+            {!is404 ? <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
+          </ImageContainer>
+          <h2 className='product-title'>{prodTitle}</h2>
+          {/* <p>{prod.img}</p> */}
+          <ItemPrice>
+            {prod.saleprice === prod.price ? null : <h2><SalePrice>{currencyConverter(prod.price)}</SalePrice></h2>}
+            <h2>{currencyConverter(prod.saleprice)}</h2>
+          </ItemPrice>
+        </ItemContent>
+      </Link>
     </ItemFrame>
   )
 }
