@@ -5,10 +5,12 @@ import { Link } from 'gatsby';
 import { HiArrowCircleRight, HiArrowCircleLeft } from 'react-icons/hi';
 
 import { RxValueNone } from 'react-icons/rx';
+import SmallSlider from './SmallSlider';
 
 let SingleProductPage = ({ props, lang, slug, product, products }) => {
   const [is404, setIs404] = useState(false);
-  const [isSecondImg, setIsSecondImg] = useState(false);
+  const [isNextImg, setIsNextImg] = useState(false);
+  const [isMoreImg, setIsMoreImg] = useState(false);
   const [sliderNum, setSliderNum] = useState(1)
 
   //data
@@ -79,26 +81,52 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   checkLink()
 
   // Check for second image
-  const checkSecondImage = () => {
+  const checkNextImage = () => {
     const img = new Image();
     img.src = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}_${sliderNum + 1}.jpg`;
 
     img.onerror = () => {
-      setIsSecondImg(false);
+      setIsNextImg(false);
     };
 
     img.onload = () => {
-      setIsSecondImg(true);
+      setIsNextImg(true);
     };
   };
-  checkSecondImage()
+  checkNextImage()
+
+  const checkMoreImage = () => {
+    const img = new Image();
+    img.src = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}_2.jpg`;
+
+    img.onerror = () => {
+      setIsMoreImg(false);
+    };
+
+    img.onload = () => {
+      setIsMoreImg(true);
+    };
+  };
+  checkMoreImage()
+
+  let array = Array.from(Array(20 + 1).keys()).slice(1);
+
 
   return (
     <ProductContent>
       <ImageContainer>
-        {!is404 ? <img src={imgData} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
-        {isSecondImg ? <HiArrowCircleRight onClick={() => setSliderNum(sliderNum + 1)} style={{ right: "5px" }} /> : null}
+        {!is404 ? <FeaturedImage src={imgData} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
+        {isNextImg ? <HiArrowCircleRight onClick={() => setSliderNum(sliderNum + 1)} style={{ right: "5px" }} /> : null}
         {sliderNum < 2 ? null : <HiArrowCircleLeft onClick={() => setSliderNum(sliderNum - 1)} style={{ left: "5px" }} />}
+        {isMoreImg ?
+          <MoreImage>
+            {array.map(el => {
+              return (
+                <SmallSlider number={el} setSliderNum={setSliderNum} prodBrand={prodBrand.toLocaleLowerCase()} prodImg={prodImg} sliderNum={sliderNum} />
+              )
+            })}
+          </MoreImage>
+          : null}
       </ImageContainer>
       <ProductDetailBox>
         <h2>{prodTitle}</h2>
@@ -155,10 +183,10 @@ export const ProductContent = styled.div`
 `
 export const ImageContainer = styled.div`
     position: relative;
-    img {
-      aspect-ratio: 0.75;
-      object-fit: contain;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     svg {
       position: absolute;
       top: 10px;
@@ -173,6 +201,22 @@ export const ImageContainer = styled.div`
     svg:hover {
       color: #cc181a;
       transform: scale(1.1);
+    }
+`
+export const FeaturedImage = styled.img`
+    aspect-ratio: 0.75;
+    object-fit: contain;
+`
+export const MoreImage = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    img {
+      aspect-ratio: 1;
+      object-fit: contain;
+      @media (min-width: 650px) {
+        max-width: 100px;
+      }
     }
 `
 export const ProductDetailBox = styled.div`

@@ -43,7 +43,8 @@
     "react-icons": "^4.8.0",
     "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.4.1",
-    "styled-components": "^5.3.8"
+    "styled-components": "^5.3.8",
+    "swiper": "^10.2.0"
   },
   "repository": {
     "type": "git",
