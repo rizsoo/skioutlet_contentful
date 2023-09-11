@@ -9,7 +9,6 @@ import FilterSearch from './FilterSearch';
 import Pagi from './Pagi';
 import Mosaik from './Mosaik'
 import { Link } from 'gatsby';
-import { FaHeart } from 'react-icons/fa';
 
 //icons
 import genderIcon from '../../assets/img/genderIcon.png'

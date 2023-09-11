@@ -8,6 +8,7 @@ import { RxValueNone } from 'react-icons/rx';
 import SmallSlider from './SmallSlider';
 
 let SingleProductPage = ({ props, lang, slug, product, products }) => {
+
   const [is404, setIs404] = useState(false);
   const [isNextImg, setIsNextImg] = useState(false);
   const [isMoreImg, setIsMoreImg] = useState(false);
@@ -138,7 +139,7 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
         <SingleProductDetails>
           <ProductSizeList>
             <b>{props.stock}</b>
-            {result.map((prod, index) =>
+            {result[0].list && result[0].list.map((prod, index) =>
               <SizeListColumn key={index}>
                 {prod.size ? <Asd>{prod.size}</Asd> : null}
                 <Dsa>{prod.stock != null ? prod.stock.split(",").shift() : ""} {props.piece}</Dsa>

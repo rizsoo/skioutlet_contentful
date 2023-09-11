@@ -111,6 +111,10 @@ query MyQuery($node_locale: String) {
             isonsale
             stock
             size
+            list {
+                size
+                stock
+            }
         }
     }
 }

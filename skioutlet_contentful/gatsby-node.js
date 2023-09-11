@@ -52,13 +52,21 @@ exports.sourceNodes = async ({ actions }) => {
     const { createNode } = actions;
 
     // Fetch and convert CSV data to JSON
-    const jsonData = await fetchCsvDataAndConvertToJson("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv", ["sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size"], "\t")
+    const jsonData = await fetchCsvDataAndConvertToJson("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv", ["sku", "title", "brand", "web", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size"], "\t")
     const fixedJsonData = jsonData.filter(prod => Number(prod.stock.split(",").shift()) > 0);
     const imageData = await fetchCsvDataAndConvertToJson("https://wp.skioutlet.hu/wp-content/uploads/2022/09/keresokod_utf8.csv", ["sku", "img"], "")
     let mergedData = filteredSearchcode(arrayMergeByKey("sku", imageData, fixedJsonData).filter(el => el.title), 'img').filter(el => el.sku != undefined || el.sku != null)
+    let singleData = arrayMergeByKey("sku", imageData, fixedJsonData).filter(el => el.title).filter(el => el.sku != undefined || el.sku != null)
+
+    let result = mergedData.map(obj => ({
+        ...obj, list: singleData.filter(el => el.img === obj.img).map(el => ({
+            size: el.size,
+            stock: el.stock
+        }))
+    }))
 
     // Create a new GraphQL node for the JSON data
-    mergedData.forEach((data, index) => {
+    result.forEach((data, index) => {
         createNode({
             ...data,
             id: `${index}`, // Use a unique ID for each node
@@ -71,7 +79,6 @@ exports.sourceNodes = async ({ actions }) => {
         });
     });
 };
-
 
 // Create pages
 exports.createPages = async ({ graphql, actions }) => {
@@ -103,6 +110,10 @@ exports.createPages = async ({ graphql, actions }) => {
                     isonsale
                     stock
                     size
+                    list {
+                        size
+                        stock
+                    }
                 }
             }
 		}
