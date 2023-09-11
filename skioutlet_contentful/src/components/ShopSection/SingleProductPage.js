@@ -11,6 +11,10 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   const [isSecondImg, setIsSecondImg] = useState(false);
   const [sliderNum, setSliderNum] = useState(1)
 
+  const containerRef = useRef(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+
+
   //data
   let result = products.nodes.filter(el => el.img === product.img);
 
@@ -96,7 +100,7 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   return (
     <ProductContent>
       <ImageContainer>
-        {!is404 ? <img src={imgData} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
+        {!is404 ? <img ref={containerRef} src={imgData} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
         {isSecondImg ? <HiArrowCircleRight onClick={() => setSliderNum(sliderNum + 1)} style={{ right: "5px" }} /> : null}
         {sliderNum < 2 ? null : <HiArrowCircleLeft onClick={() => setSliderNum(sliderNum - 1)} style={{ left: "5px" }} />}
       </ImageContainer>
@@ -163,7 +167,7 @@ export const ImageContainer = styled.div`
       position: absolute;
       top: 10px;
       // transform: translateY(-50%);
-      color:#ed2123;
+      color: #ed2123;
       width: 32px;
       height: 32px;
       transition: all ease 0.2s;
@@ -272,7 +276,7 @@ export const ProdSub = styled.p`
 `
 
 export const NoImage = styled.div`
-    width: 100%;
+    width: 200%;
 
     color: lightgrey;
     
@@ -285,9 +289,27 @@ export const NoImage = styled.div`
     svg {
       width: 50px;
       height: 50px;
+      color: lightgrey;
+      position: relative;
+      border-radius: 0;
+      &:hover {
+        color: lightgrey;
+        transform: unset;
+      }
     }
     h3 {
       margin: 0;
+    }
+    @media (max-width: 650px) {
+      width: 100%;
+      height: 200px;
+      svg {
+        width: 120px;
+        height: 120px;
+      }
+      h3 {
+        font-size: 30px;
+      }
     }
     @media (min-width: 650px) {
       min-height: 250px;

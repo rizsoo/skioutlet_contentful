@@ -157,9 +157,6 @@ export const ProductFrame = styled.div`
         svg {
             top: 27px;
         }
-        h3 {
-            margin-bottom: 15px;
-        }
     }
 `
 export const RollFrame = styled.div`
@@ -172,8 +169,10 @@ export const RollFrame = styled.div`
     justify-content: start;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
+
     @media (max-width: 650px) {
         grid-template-columns: repeat(2, 1fr) !important;
+        margin-top: 30px !important;
     }
 `
 export const ProductElements = styled.span`
