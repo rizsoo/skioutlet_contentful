@@ -11,10 +11,6 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   const [isSecondImg, setIsSecondImg] = useState(false);
   const [sliderNum, setSliderNum] = useState(1)
 
-  const containerRef = useRef(null);
-  const [isScrolling, setIsScrolling] = useState(false);
-
-
   //data
   let result = products.nodes.filter(el => el.img === product.img);
 
@@ -100,7 +96,7 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   return (
     <ProductContent>
       <ImageContainer>
-        {!is404 ? <img ref={containerRef} src={imgData} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
+        {!is404 ? <img src={imgData} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
         {isSecondImg ? <HiArrowCircleRight onClick={() => setSliderNum(sliderNum + 1)} style={{ right: "5px" }} /> : null}
         {sliderNum < 2 ? null : <HiArrowCircleLeft onClick={() => setSliderNum(sliderNum - 1)} style={{ left: "5px" }} />}
       </ImageContainer>
