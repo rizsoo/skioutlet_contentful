@@ -240,7 +240,7 @@ export const ShopSection = ({ lang, slug, products }) => {
         pageNum={pageNum}
         setPageNum={setPageNum}
       />
-      <Sorting action="/shop/" onInput={handleSelectChange}>
+      <Sorting action="/shop/" onInput={handleSelectChange} value={orderResult}>
         <option name="orderby" value="name" defaultValue={orderNameOnly === "name"}>Név szerinti sorrend</option>
         <option name="orderby" value="pricy" defaultValue={orderNameOnly === "cheap"}>Legdrágább elöl</option>
         <option name="orderby" value="cheap" defaultValue={orderNameOnly === "pricy"}>Legolcsóbb elöl</option>
