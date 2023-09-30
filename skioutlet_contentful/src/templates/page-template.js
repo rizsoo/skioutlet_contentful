@@ -60,6 +60,22 @@ query MyQuery($slug: String, $node_locale: String) {
               contentful_id
               title
             }
+            ... on ContentfulSupportersSection {
+              __typename
+              contentful_id
+              title
+              elements {
+                ... on ContentfulSimpleCard {
+                  id
+                  __typename
+                  title
+                  short
+                  image {
+                    url
+                  }
+                }
+              }
+            }
             ... on ContentfulHomepageSection {
               __typename
               contentful_id

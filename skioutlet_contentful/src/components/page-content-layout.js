@@ -9,6 +9,7 @@ import { ShopSection } from '../components/ShopSection/ShopSection';
 import SingleProductPage from './ShopSection/SingleProductPage'
 import NewsList from './NewsList/NewsList'
 import HomepageSection from './HomepageSection/HomepageSection'
+import { SupportersSection } from './SupportersSection/SupportersSection'
 
 export const PageContentLayout = ({ title, content, navbar, footer, details, path, products, product, image }) => {
 
@@ -61,6 +62,13 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
                                 lang={details}
                                 products={products}
                                 slug={path}
+                            />
+                        )
+                    case "ContentfulSupportersSection":
+                        return (
+                            <SupportersSection
+                                props={data}
+                                lang={details}
                             />
                         )
                     default:

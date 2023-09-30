@@ -37,14 +37,13 @@ export const ShopSection = ({ lang, slug, products }) => {
   const queryLast = queryResult.includes("+") ? queryResult.split("+").join(" ") : queryResult;
 
   // Orderby
-  const orderResult = slug.includes("orderby=") ? slug.split("orderby=").pop() : '';
+  const orderResult = location.includes("orderby=") ? location.split("orderby=").pop() : '';
   const orderNameOnly = orderResult.includes("&") ? orderResult.split("&")[0] : orderResult;
 
   //STATES
   const [pageNum, setPageNum] = useState(slugNum);
   const [searchTerm, setSearchTerm] = useState(urldecode(queryLast))
   const [sorting, setSorting] = useState(orderNameOnly);
-
 
   let nextNum = pageNum * 16;
 
@@ -157,7 +156,7 @@ export const ShopSection = ({ lang, slug, products }) => {
 
   const handleSelectChange = (event) => {
     const newValue = event.target.value;
-    window.history.replaceState(null, "", slug.includes("?") ? `${slug}&orderby=${event.target.value}` : `${slug}/?orderby=${event.target.value}`)
+    window.history.replaceState(null, "", slug.includes("?") ? `${slug}&orderby=${event.target.value}` : `${slug}?orderby=${event.target.value}`)
     setSorting(newValue);
   };
 
@@ -241,11 +240,11 @@ export const ShopSection = ({ lang, slug, products }) => {
         pageNum={pageNum}
         setPageNum={setPageNum}
       />
-      {/* <Sorting action="/shop/" onInput={handleSelectChange}>
-        <option name="orderby" value="name" defaultValue={orderNameOnly === "name"}>Név szerint</option>
-        <option name="orderby" value="priceLow" defaultValue={orderNameOnly === "priceLow"}>Legdrágább</option>
-        <option name="orderby" value="priceHigh" defaultValue={orderNameOnly === "priceHigh"}>Legolcsóbb</option>
-      </Sorting> */}
+      <Sorting action="/shop/" onInput={handleSelectChange}>
+        <option name="orderby" value="name" defaultValue={orderNameOnly === "name"}>Név szerinti sorrend</option>
+        <option name="orderby" value="pricy" defaultValue={orderNameOnly === "cheap"}>Legdrágább elöl</option>
+        <option name="orderby" value="cheap" defaultValue={orderNameOnly === "pricy"}>Legolcsóbb elöl</option>
+      </Sorting>
       <Mosaik
         sorting={sorting}
         size={size}

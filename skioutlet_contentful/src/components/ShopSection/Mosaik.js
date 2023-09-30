@@ -13,12 +13,14 @@ const Mosaik = ({ sorting, filteredProducts, nextNum, size, lang, searchTerm }) 
 
     function renderSorting(val) {
         if (val === "name") {
-            return filteredProducts.sort((a, b) => a.title > b.title ? 1 : -1)
-        } else if (val === "priceHigh") {
-            return filteredProducts.sort((a, b) => a.price > b.price ? 1 : -1)
-        } else if (val === "priceLow") {
-            return filteredProducts.sort((a, b) => a.price > b.price ? -1 : 1)
-        } else return filteredProducts.sort((a, b) => a.title > b.title ? 1 : -1)
+            return filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
+        } else if (val === "cheap") {
+            return filteredProducts.sort((a, b) => Number(a.saleprice) - Number(b.saleprice));
+        } else if (val === "pricy") {
+            return filteredProducts.sort((a, b) => Number(b.saleprice) - Number(a.saleprice));
+        } else {
+            return filteredProducts.sort((a, b) => a.title.localeCompare(b.title));  // Return the original array in case of an error
+        }
     }
 
     return (
