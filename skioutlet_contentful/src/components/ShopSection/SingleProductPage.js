@@ -83,20 +83,6 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   // };
   // checkNextImage()
 
-  const checkMoreImage = () => {
-    const img = new Image();
-    img.src = `https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}_2.jpg`;
-
-    img.onerror = () => {
-      setIsMoreImg(false);
-    };
-
-    img.onload = () => {
-      setIsMoreImg(true);
-    };
-  };
-  checkMoreImage()
-
   let array = Array.from(Array(20 + 1).keys()).slice(1);
 
   // Function to check if an image URL is valid
@@ -139,7 +125,7 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
         {/* {!is404 ? <FeaturedImage src={imageArray[sliderNum - 1]} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>} */}
         {imageArray.length > sliderNum && <HiArrowCircleRight onClick={() => setSliderNum(sliderNum + 1)} style={{ right: "5px" }} />}
         {sliderNum < 2 ? null : <HiArrowCircleLeft onClick={() => setSliderNum(sliderNum - 1)} style={{ left: "5px" }} />}
-        {isMoreImg ?
+        {imageArray.length > 1 ?
           <MoreImage>
             {imageArray.map((el, i) => {
               return (

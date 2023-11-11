@@ -1,12 +1,9 @@
 import React from 'react'
-import { useState } from 'react';
 import styled from 'styled-components';
 
 const SmallSlider = ({ element, i, setSliderNum, sliderNum }) => {
 
-    let number = element.split("_").pop().split(".")[0]
-    let res = number > 20 ? 1 : Number(number)
-    let isSameImage = (sliderNum > 20 ? 1 : Number(sliderNum)) === res;
+    let isSameImage = (sliderNum > 20 ? 1 : Number(sliderNum)) === (i + 1);
 
     return (
         <Frame opacity={isSameImage}>
