@@ -28,7 +28,7 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
 
   let prodTitle = String(product.title);
   let prodImg = String(product.img);
-  let prodBrand = String(product.brand);
+  let prodBrand = String(product.brand.toLowerCase());
   // let prodBrandLow = prodBrand.toLowerCase();
   let prodPrice = product.price;
   let prodSalePrice = product.saleprice;
@@ -84,7 +84,7 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   // Check for second image
   const checkNextImage = () => {
     const img = new Image();
-    img.src = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}_${sliderNum + 1}.jpg`;
+    img.src = `https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}_${sliderNum + 1}.jpg`;
 
     img.onerror = () => {
       setIsNextImg(false);
@@ -98,7 +98,7 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
 
   const checkMoreImage = () => {
     const img = new Image();
-    img.src = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}_2.jpg`;
+    img.src = `https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}_2.jpg`;
 
     img.onerror = () => {
       setIsMoreImg(false);
@@ -123,7 +123,7 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
           <MoreImage>
             {array.map(el => {
               return (
-                <SmallSlider number={el} setSliderNum={setSliderNum} prodBrand={prodBrand.toLocaleLowerCase()} prodImg={prodImg} sliderNum={sliderNum} />
+                <SmallSlider number={el} setSliderNum={setSliderNum} prodBrand={prodBrand} prodImg={prodImg} sliderNum={sliderNum} />
               )
             })}
           </MoreImage>

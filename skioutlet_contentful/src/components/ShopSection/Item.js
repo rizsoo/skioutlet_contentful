@@ -73,9 +73,9 @@ const Item = ({ prod, size, lang, searchTerm, items, setItems, sorting }) => {
         lang: lang === "hu" ? "" : "en"
       })}>
         <ItemContent>
-          <HeartIcon style={{ color: `${items.includes(prodImg) ? "#ed2123" : "black"}` }} onClick={() => handlePushToArray(prodImg)} >
+          {/* <HeartIcon style={{ color: `${items.includes(prodImg) ? "#ed2123" : "black"}` }} onClick={() => handlePushToArray(prodImg)} >
             {items.includes(prodImg) ? <FaHeart /> : <FiHeart />}
-          </HeartIcon>
+          </HeartIcon> */}
           <ImageContainer>
             {!is404 ? <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
           </ImageContainer>

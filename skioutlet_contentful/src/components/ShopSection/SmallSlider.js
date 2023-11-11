@@ -8,7 +8,6 @@ const SmallSlider = ({ number, prodBrand, setSliderNum, prodImg, sliderNum }) =>
     const checkAllImage = (num) => {
         const img = new Image();
         img.src = `https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}${num > 1 ? `_${num}` : ''}.jpg`;
-
         img.onerror = () => {
             setImg(false);
         };
@@ -29,10 +28,12 @@ const SmallSlider = ({ number, prodBrand, setSliderNum, prodImg, sliderNum }) =>
 }
 
 export const Frame = styled.div`
-    max-width: calc(100% / 3.1);
     ${props => props.isImg ? '' : 'display: none;'}
     img {
         opacity: ${props => props.opacity ? '1' : '0.5'};
+    }
+    @media (max-width: 650px) {
+        max-width: calc(100% / 3.1);
     }
 `
 
