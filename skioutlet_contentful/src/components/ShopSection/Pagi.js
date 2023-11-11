@@ -22,7 +22,6 @@ const Pagi = ({ sorting, totalPageNum, searchTerm, pageNum, handlePageClick, set
             let leftRange = Array.from(Array(leftItemCount + 1).keys()).slice(1);
             return [...leftRange, "...", totalPageNum];
         } else if (shouldShowLeftDots && !shouldShowRightDots) {
-
             let rightItemCount = 3 + 2 * siblingCount;
             let rightRange = Array.from(Array(totalPageNum + 1).keys()).slice(totalPageNum - rightItemCount + 1);
             return [firstPageIndex, "...", ...rightRange];
@@ -35,10 +34,11 @@ const Pagi = ({ sorting, totalPageNum, searchTerm, pageNum, handlePageClick, set
     return (
         <Pagination>
             {specialPagination().map((el, index) => {
+                console.log(el);
                 return (
-                    <Link key={index} to={`/shop/pagenum_${el}${sorting == undefined ? "" : `?orderby=${sorting}`}${searchTerm.length > 0 ? `${sorting !== undefined ? "&" : "?"}s=${searchTerm}` : ""}`}>
+                    <Link key={index} to={el !== "..." && `/shop/pagenum_${el}${sorting == undefined ? "" : `?orderby=${sorting}`}${searchTerm.length > 0 ? `${sorting !== undefined ? "&" : "?"}s=${searchTerm}` : ""}`}>
                         <PageNumber
-                            onClick={() => setPageNum(el)}
+                            onClick={() => el !== "..." && setPageNum(el)}
                             style={pageNum === el ? { backgroundColor: "#e1e1e1" } : null}>
                             {String(el)}
                         </PageNumber>
