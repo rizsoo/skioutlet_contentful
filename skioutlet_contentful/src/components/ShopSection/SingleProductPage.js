@@ -14,6 +14,8 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   const [isMoreImg, setIsMoreImg] = useState(false);
   const [sliderNum, setSliderNum] = useState(1)
 
+  const [imageArray, setImageArray] = useState([])
+
   //data
   let result = products.nodes.filter(el => el.img === product.img);
 
@@ -66,35 +68,20 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
     setSource();
   }, [prodBrand, sliderNum])
 
-  // Check if there is any image
-  const checkLink = () => {
-    const img = new Image();
-    img.src = link;
+  // // Check for second image
+  // const checkNextImage = () => {
+  //   const img = new Image();
+  //   img.src = `https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}_${sliderNum + 1}.jpg`;
 
-    img.onerror = () => {
-      setIs404(true);
-    };
+  //   img.onerror = () => {
+  //     setIsNextImg(false);
+  //   };
 
-    img.onload = () => {
-      setIs404(false);
-    };
-  };
-  checkLink()
-
-  // Check for second image
-  const checkNextImage = () => {
-    const img = new Image();
-    img.src = `https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}_${sliderNum + 1}.jpg`;
-
-    img.onerror = () => {
-      setIsNextImg(false);
-    };
-
-    img.onload = () => {
-      setIsNextImg(true);
-    };
-  };
-  checkNextImage()
+  //   img.onload = () => {
+  //     setIsNextImg(true);
+  //   };
+  // };
+  // checkNextImage()
 
   const checkMoreImage = () => {
     const img = new Image();
@@ -112,18 +99,52 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
 
   let array = Array.from(Array(20 + 1).keys()).slice(1);
 
+  // Function to check if an image URL is valid
+  useEffect(() => {
+    // Function to check if an image URL is valid
+    async function isValidImageUrl(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
+    }
 
+    // Perform the asynchronous operation inside useEffect
+    Promise.all(
+      array.map((el) => {
+        let imageUrl = `https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}${el > 1 ? `_${el}` : ''}.jpg`;
+        return isValidImageUrl(imageUrl).then((isValid) => (isValid ? imageUrl : null));
+      })
+    )
+      .then((validImageUrls) => {
+        // Filter out null values (invalid URLs)
+        const filteredUrls = validImageUrls.filter((url) => url !== null);
+
+        // Update the state only if it's different from the current state
+        if (JSON.stringify(filteredUrls) !== JSON.stringify(imageArray)) {
+          setImageArray(filteredUrls);
+        }
+      })
+      .catch((error) => {
+        console.error('Error checking image URLs:', error);
+      });
+  }, [array, prodBrand, prodImg, imageArray]);
+
+  console.log(imageArray);
   return (
     <ProductContent>
       <ImageContainer>
-        {!is404 ? <FeaturedImage src={imgData} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
-        {isNextImg ? <HiArrowCircleRight onClick={() => setSliderNum(sliderNum + 1)} style={{ right: "5px" }} /> : null}
+        {imageArray.length > 0 ? <FeaturedImage src={imageArray[sliderNum - 1]} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
+        {/* {!is404 ? <FeaturedImage src={imageArray[sliderNum - 1]} alt={prodImg} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>} */}
+        {imageArray.length > sliderNum && <HiArrowCircleRight onClick={() => setSliderNum(sliderNum + 1)} style={{ right: "5px" }} />}
         {sliderNum < 2 ? null : <HiArrowCircleLeft onClick={() => setSliderNum(sliderNum - 1)} style={{ left: "5px" }} />}
         {isMoreImg ?
           <MoreImage>
-            {array.map(el => {
+            {imageArray.map((el, i) => {
               return (
-                <SmallSlider number={el} setSliderNum={setSliderNum} prodBrand={prodBrand} prodImg={prodImg} sliderNum={sliderNum} />
+                <SmallSlider element={el} i={i} setSliderNum={setSliderNum} sliderNum={sliderNum} />
               )
             })}
           </MoreImage>
@@ -203,6 +224,17 @@ export const ImageContainer = styled.div`
       color: #cc181a;
       transform: scale(1.1);
     }
+    @media (min-width: 650px) {
+      min-width: 350px;
+    }
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
 `
 export const FeaturedImage = styled.img`
     aspect-ratio: 0.75;
@@ -216,7 +248,7 @@ export const MoreImage = styled.div`
       aspect-ratio: 1;
       object-fit: contain;
       @media (min-width: 650px) {
-        max-width: 100px;
+        max-width: 90px;
       }
     }
 `

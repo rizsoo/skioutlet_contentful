@@ -2,33 +2,20 @@ import React from 'react'
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const SmallSlider = ({ number, prodBrand, setSliderNum, prodImg, sliderNum }) => {
-    const [isImg, setImg] = useState(false)
-    // Check for all the images
-    const checkAllImage = (num) => {
-        const img = new Image();
-        img.src = `https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}${num > 1 ? `_${num}` : ''}.jpg`;
-        img.onerror = () => {
-            setImg(false);
-        };
+const SmallSlider = ({ element, i, setSliderNum, sliderNum }) => {
 
-        img.onload = () => {
-            setImg(true);
-        };
-    };
-    checkAllImage(number)
-
-    let isSameImage = sliderNum === number;
+    let number = element.split("_").pop().split(".")[0]
+    let res = number > 20 ? 1 : Number(number)
+    let isSameImage = (sliderNum > 20 ? 1 : Number(sliderNum)) === res;
 
     return (
-        <Frame opacity={isSameImage} isImg={isImg}>
-            {isImg && <img onClick={() => setSliderNum(number)} src={`https://img.skioutlet.hu/product_images/${prodBrand}/${prodImg}${number > 1 ? `_${number}` : ''}.jpg`} alt='' />}
+        <Frame opacity={isSameImage}>
+            <img onClick={() => setSliderNum(i + 1)} src={element} alt='' />
         </Frame>
     )
 }
 
 export const Frame = styled.div`
-    ${props => props.isImg ? '' : 'display: none;'}
     img {
         opacity: ${props => props.opacity ? '1' : '0.5'};
     }
