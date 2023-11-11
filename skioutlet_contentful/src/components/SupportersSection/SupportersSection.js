@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 export const SupportersSection = ({ props }) => {
-    console.log(props);
+
     return (
         <div>
             <h2>{props.title}</h2>

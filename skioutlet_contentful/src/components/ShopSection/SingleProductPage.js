@@ -132,7 +132,6 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
       });
   }, [array, prodBrand, prodImg, imageArray]);
 
-  console.log(imageArray);
   return (
     <ProductContent>
       <ImageContainer>
