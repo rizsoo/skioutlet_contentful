@@ -11,7 +11,7 @@ import NewsList from './NewsList/NewsList'
 import HomepageSection from './HomepageSection/HomepageSection'
 import { SupportersSection } from './SupportersSection/SupportersSection'
 
-export const PageContentLayout = ({ title, content, navbar, footer, details, path, products, product, image }) => {
+export const PageContentLayout = ({ title, content, navbar, footer, footer2, details, path, products, product, image }) => {
 
     const options = {
         renderNode: {
@@ -92,7 +92,7 @@ export const PageContentLayout = ({ title, content, navbar, footer, details, pat
                     </Content>
                 </PageContent>
             </div>
-            <Footer footer={footer} lang={details} />
+            <Footer footer={footer} footer2={footer2} lang={details} />
         </Page>
     )
 }

@@ -2,16 +2,23 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
 
-export const Footer = ({ footer, lang }) => {
+export const Footer = ({ footer, footer2, lang }) => {
+
     return (
         <div style={{ marginTop: "55px" }}>
             <FooterBox>
                 <Content>
                     <List>
-                        <li className='comment' style={{ color: "white", fontSize: "13px", fontWeight: "500", marginBottom: "10px" }}>Egyéb</li>
+                        {/* <li className='comment' style={{ color: "white", fontSize: "13px", fontWeight: "500", marginBottom: "10px" }}>Egyéb</li> */}
                         {footer.elements.map((el, i) => {
                             return (
                                 <Link key={i} to={lang.node_locale === "hu" ? `/${el.slug}` : `/${el.node_locale}/${el.slug}`} ><MenuElement >{el.title}</MenuElement></Link>
+                            )
+                        })}
+                        <hr style={{ color: "white", margin: "15px 0 10px 0" }}></hr>
+                        {footer2.elements.map((el, i) => {
+                            return (
+                                <Link style={{ fontSize: "12px", fontWeight: "200" }} key={i} to={lang.node_locale === "hu" ? `/${el.slug}` : `/${el.node_locale}/${el.slug}`} ><MenuElement >{el.title}</MenuElement></Link>
                             )
                         })}
                     </List>
@@ -90,6 +97,7 @@ export const List = styled.ul`
         list-style: none;
         margin: 0;
         font-weight: 700;
+        letter-spacing: 1px;
     }
     a {
         font-size: 20px;
