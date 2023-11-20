@@ -83,6 +83,16 @@ query MyQuery($slug: String, $node_locale: String) {
         node_locale
         }
     }
+    footer2: contentfulPageList(node_locale: {eq: $node_locale}, title: {eq: "footer2"}) {
+        title
+        node_locale
+        contentful_id
+        elements {
+          title
+          slug
+          node_locale
+          }
+      }
 }
 `
 
