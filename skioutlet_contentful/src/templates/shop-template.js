@@ -7,7 +7,7 @@ import { ThreeDots } from 'react-loader-spinner'
 import { SEO } from '../components/Seo';
 import { PageContentLayout } from '../components/page-content-layout';
 
-const ShopTemplate = ({ data: { page, navbar, footer, products }, path }) => {
+const ShopTemplate = ({ data: { page, navbar, footer, footer2, products }, path }) => {
 
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -28,6 +28,7 @@ const ShopTemplate = ({ data: { page, navbar, footer, products }, path }) => {
                     image={page.image}
                     navbar={navbar}
                     footer={footer}
+                    footer2={footer2}
                     details={page}
                     path={path}
                     products={products.nodes}

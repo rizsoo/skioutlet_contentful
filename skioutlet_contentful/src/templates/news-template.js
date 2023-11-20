@@ -7,7 +7,7 @@ import { ThreeDots } from 'react-loader-spinner'
 import { SEO } from '../components/Seo';
 import { PageContentLayout } from '../components/page-content-layout';
 
-const NewsTemplate = ({ data: { news, navbar, footer }, path }) => {
+const NewsTemplate = ({ data: { news, navbar, footer, footer2 }, path }) => {
 
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -28,6 +28,7 @@ const NewsTemplate = ({ data: { news, navbar, footer }, path }) => {
                     image={news.image}
                     navbar={navbar}
                     footer={footer}
+                    footer2={footer2}
                     details={news}
                     path={path}
                 />

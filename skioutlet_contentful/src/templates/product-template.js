@@ -7,7 +7,7 @@ import { ThreeDots } from 'react-loader-spinner'
 import { SEO } from '../components/Seo';
 import { PageContentLayout } from '../components/page-content-layout';
 
-const ProductTemplate = ({ data: { page, navbar, footer, products }, path, pageContext }) => {
+const ProductTemplate = ({ data: { page, navbar, footer, footer2, products }, path, pageContext }) => {
 
     let product = pageContext.details
 
@@ -30,6 +30,7 @@ const ProductTemplate = ({ data: { page, navbar, footer, products }, path, pageC
                     image={page.image}
                     navbar={navbar}
                     footer={footer}
+                    footer2={footer2}
                     details={pageContext}
                     path={path}
                     product={product}
