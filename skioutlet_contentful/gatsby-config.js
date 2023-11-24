@@ -32,7 +32,34 @@ module.exports = {
     `gatsby-plugin-image`,
     'gatsby-plugin-react-helmet',
     `gatsby-plugin-recaptcha`,
-    `gatsby-plugin-sitemap`,
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        output: '/sitemap.xml',
+        query: `
+        {
+          site {
+            siteMetadata {
+              siteUrl
+            }
+          }
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+        }
+      `,
+        resolveSiteUrl: ({ site }) => {
+          return site.siteMetadata.siteUrl
+        },
+        serialize: ({ path }) => {
+          return {
+            url: path,
+          }
+        },
+      },
+    },
   ],
   siteMetadata: {
     title: `Skioutlet`,
