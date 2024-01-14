@@ -6,10 +6,13 @@ import { useState, useEffect } from 'react'
 import { ThreeDots } from 'react-loader-spinner'
 import { SEO } from '../components/Seo';
 import { PageContentLayout } from '../components/page-content-layout';
+import { useSiteMetadata } from '../hooks/use-site-metadata';
 
 const NewsTemplate = ({ data: { news, navbar, footer, footer2 }, path }) => {
 
     const [isLoaded, setIsLoaded] = useState(false);
+
+    const { title: defaultTitle, description: defaultDescription, image: MetaImage, siteUrl } = useSiteMetadata()
 
     useEffect(() => {
         setIsLoaded(true)
@@ -19,7 +22,14 @@ const NewsTemplate = ({ data: { news, navbar, footer, footer2 }, path }) => {
         <>
             <Helmet>
                 <title>{news.title}</title>
-                <SEO title={news.title} description={"Skioutlet síszaküzlet"} />
+                <meta name="description" content={news.short? news.short : defaultDescription} />
+                <meta name="image" content={news.image ? news.image.url : MetaImage} />
+                <meta name="title" content={news.title} />
+                <meta property="og:description" content={news.short? news.short : defaultDescription} />
+                <meta property="og:image" content={news.image ? news.image.url : MetaImage} />
+                <meta property="og:site_name" content={news.title} />
+                <meta property="og:title" content={news.title} />
+                <meta property="og:type" content="website" />
             </Helmet>
             {isLoaded ?
                 <PageContentLayout
