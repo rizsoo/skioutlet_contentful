@@ -30,13 +30,18 @@ const Item = ({ prod, size, lang, searchTerm, items, setItems, sorting }) => {
 
   function setSource() {
     try {
-      const src = `https://img.skioutlet.hu/product_images/${imgFolderName}/${prodImg}.jpg`
+      const src = `https://img.skioutlet.hu/product_images/${imgFolderName}/${prodImg}.jpg`;
       setImgData({ src });
-    }
-    catch (err) {
-      setImgData("")
+    } catch (err) {
+      try {
+        const src = `https://img.skioutlet.hu/product_images/${imgFolderName}/${prodImg}.webp`;
+        setImgData({ src });
+      } catch (err) {
+        setImgData(""); // Handle the error if both formats fail
+      }
     }
   }
+  
 
   const checkLink = () => {
     const img = new Image();

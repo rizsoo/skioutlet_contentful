@@ -51,18 +51,29 @@ let SingleProductPage = ({ props, lang, slug, product, products }) => {
   }
 
   // Get image
-  const [imgData, setImgData] = useState([])
-  let link = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}${sliderNum < 2 ? "" : ("_" + sliderNum)}.jpg`
+// Get image
+const [imgData, setImgData] = useState([]);
+let linkBase = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}${sliderNum < 2 ? "" : ("_" + sliderNum)}`;
 
-  function setSource() {
+function setSource() {
+  try {
+    // Try loading the .jpg version first
+    const jpgLink = `${linkBase}.jpg`;
+    setImgData(jpgLink);
+  } catch (err) {
+    console.log(".jpg image doesn't exist, trying .webp");
+
     try {
-      const src = link;
-      setImgData(src);
-    }
-    catch (err) {
-      console.log("img doesn't exists");
+      // If the .jpg fails, try the .webp version
+      const webpLink = `${linkBase}.webp`;
+      setImgData(webpLink);
+    } catch (err) {
+      console.log("Neither .jpg nor .webp images exist");
+      setImgData(""); // Set empty data if both formats fail
     }
   }
+}
+
 
   useEffect(() => {
     setSource();
