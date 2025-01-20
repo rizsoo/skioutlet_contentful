@@ -1,13 +1,13 @@
-import React from 'react'
-import { generatePath } from 'react-router-dom';
-import { Link } from 'gatsby';
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import HeartIco from '../../assets/img/icons/heart.png'
-import RedHeartIco from '../../assets/img/icons/redheart.png'
-import { RxValueNone } from 'react-icons/rx';
-import { FiHeart } from 'react-icons/fi';
-import { FaHeart } from 'react-icons/fa';
+import React from "react";
+import { generatePath } from "react-router-dom";
+import { Link } from "gatsby";
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import HeartIco from "../../assets/img/icons/heart.png";
+import RedHeartIco from "../../assets/img/icons/redheart.png";
+import { RxValueNone } from "react-icons/rx";
+import { FiHeart } from "react-icons/fi";
+import { FaHeart } from "react-icons/fa";
 
 export function currencyConverter(number) {
   let priceSep = String(number).split("");
@@ -17,15 +17,14 @@ export function currencyConverter(number) {
 }
 
 const Item = ({ prod, size, lang, searchTerm, items, setItems, sorting }) => {
-
   let prodTitle = String(prod.title);
   let prodBrand = String(prod.brand);
   let imgFolderName = prodBrand.toLowerCase();
   let prodImg = String(prod.img);
   // Get image
-  const [imgData, setImgData] = useState([])
-  const [loaded, setLoaded] = useState(false)
-  const [heartStatus, setHeartStatus] = useState(HeartIco)
+  const [imgData, setImgData] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [heartStatus, setHeartStatus] = useState(HeartIco);
   const [is404, setIs404] = useState(false);
 
   function setSource() {
@@ -41,7 +40,8 @@ const Item = ({ prod, size, lang, searchTerm, items, setItems, sorting }) => {
       }
     }
   }
-  
+
+  /////
 
   const checkLink = () => {
     const img = new Image();
@@ -56,45 +56,62 @@ const Item = ({ prod, size, lang, searchTerm, items, setItems, sorting }) => {
     };
   };
 
-
   useEffect(() => {
     setSource();
-  }, [searchTerm, size, sorting, items])
+  }, [searchTerm, size, sorting, items]);
 
-  checkLink()
+  checkLink();
 
   function handlePushToArray(elem) {
-    !items.includes(elem) ?
-      setItems([...items, elem])
-      :
-      setItems(items.filter(el => el !== elem));
-    localStorage.setItem(items, JSON.stringify())
+    !items.includes(elem)
+      ? setItems([...items, elem])
+      : setItems(items.filter((el) => el !== elem));
+    localStorage.setItem(items, JSON.stringify());
   }
 
   return (
     <ItemFrame>
-      <Link to={generatePath("/:lang/product/:id", {
-        id: prodImg,
-        lang: lang === "hu" ? "" : "en"
-      })}>
+      <Link
+        to={generatePath("/:lang/product/:id", {
+          id: prodImg,
+          lang: lang === "hu" ? "" : "en",
+        })}
+      >
         <ItemContent>
           {/* <HeartIcon style={{ color: `${items.includes(prodImg) ? "#ed2123" : "black"}` }} onClick={() => handlePushToArray(prodImg)} >
             {items.includes(prodImg) ? <FaHeart /> : <FiHeart />}
           </HeartIcon> */}
           <ImageContainer>
-            {!is404 ? <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} /> : <NoImage><RxValueNone /><h3>No image</h3></NoImage>}
+            {!is404 ? (
+              <img
+                className="productwall-img"
+                style={{ display: loaded ? "block" : "none" }}
+                src={imgData.src}
+                alt={prodImg}
+                onLoad={() => setLoaded(true)}
+              />
+            ) : (
+              <NoImage>
+                <RxValueNone />
+                <h3>No image</h3>
+              </NoImage>
+            )}
           </ImageContainer>
-          <h2 className='product-title'>{prodTitle}</h2>
+          <h2 className="product-title">{prodTitle}</h2>
           {/* <p>{prod.img}</p> */}
           <ItemPrice>
-            {prod.saleprice === prod.price ? null : <h2><SalePrice>{currencyConverter(prod.price)}</SalePrice></h2>}
+            {prod.saleprice === prod.price ? null : (
+              <h2>
+                <SalePrice>{currencyConverter(prod.price)}</SalePrice>
+              </h2>
+            )}
             <h2>{currencyConverter(prod.saleprice)}</h2>
           </ItemPrice>
         </ItemContent>
       </Link>
     </ItemFrame>
-  )
-}
+  );
+};
 
 export const ItemFrame = styled.div`
   max-height: 450px;
@@ -121,7 +138,7 @@ export const HeartIcon = styled.div`
     height: 22px;
     width: 23px;
   }
-`
+`;
 
 export const ItemContent = styled.div`
   height: 100%;
@@ -169,7 +186,7 @@ export const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0px 18px 0px 18px;
-`
+`;
 
 export const ItemPrice = styled.div`
   width: 100%;
@@ -182,18 +199,18 @@ export const ItemPrice = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  h2 {
+    margin: 13px 0;
+    font-size: 19px;
+    background-color: #ed2123 !important;
+    color: white !important;
+  }
+  @media (max-width: 600px) {
     h2 {
-      margin: 13px 0;
-      font-size: 19px;
-      background-color: #ed2123 !important;
-      color: white !important;
+      margin: 3px 0;
+      font-size: 15px;
     }
-    @media (max-width: 600px) {
-      h2 {
-        margin: 3px 0;
-        font-size: 15px;
-      }
-    }
+  }
 `;
 
 export const SalePrice = styled.s`
@@ -203,21 +220,21 @@ export const SalePrice = styled.s`
 `;
 
 export const NoImage = styled.div`
-    width: 100%;
+  width: 100%;
 
-    color: lightgrey;
-    
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    svg {
-      width: 50px;
-      height: 50px;
-    }
-    h3 {
-      margin: 0;
-    }
-`
+  color: lightgrey;
 
-export default Item
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  svg {
+    width: 50px;
+    height: 50px;
+  }
+  h3 {
+    margin: 0;
+  }
+`;
+
+export default Item;
