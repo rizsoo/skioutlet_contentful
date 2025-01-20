@@ -1,6 +1,14 @@
 {
-    "crons": [{
+  "crons": [
+    {
       "path": "/api/cron",
-      "schedule": "0 20 * * *"
-    }]
-  }
+      "schedule": "0 */3 * * *"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/cron",
+      "destination": "https://api.vercel.com/v1/integrations/deploy/prj_iicM7lRil6yfXhzwZ4MqHFYKhy1x/1pcM1lcEHr"
+    }
+  ]
+}
