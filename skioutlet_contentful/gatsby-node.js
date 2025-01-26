@@ -4,9 +4,6 @@ const axios = require("axios");
 const Papa = require("papaparse");
 const arrayMergeByKey = require("array-merge-by-key");
 const filteredSearchcode = require("./src/components/functions/filter_by_color");
-const axiosRetry = require("axios-retry");
-
-axiosRetry(axios, { retries: 3 });
 
 async function fetchCsvDataAndConvertToJson(url, header, delimeter) {
   try {
