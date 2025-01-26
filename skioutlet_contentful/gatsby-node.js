@@ -7,9 +7,7 @@ const filteredSearchcode = require("./src/components/functions/filter_by_color")
 async function fetchCsvDataAndConvertToJson(url, header, delimeter) {
   try {
     const csvUrl = url;
-    const response = await axios.get(csvUrl, {
-      timeout: 120000, // 60 seconds
-    });
+    const response = await axios.get(csvUrl);
     const csvData = response.data;
 
     return new Promise((resolve) => {
@@ -53,7 +51,7 @@ exports.sourceNodes = async ({ actions }) => {
 
   // Fetch and convert CSV data to JSON
   const jsonData = await fetchCsvDataAndConvertToJson(
-    "https://haoigdglrsytvzaw.public.blob.vercel-storage.com/webarlista_utf8-tLr8pnoVroSf9W4tO1rc2RufEu5v9O.csv",
+    "https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv",
     [
       "sku",
       "title",
