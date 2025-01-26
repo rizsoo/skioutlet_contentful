@@ -71,7 +71,7 @@ exports.sourceNodes = async ({ actions }) => {
     (prod) => Number(prod.stock.split(",").shift()) > 0
   );
   const imageData = await fetchCsvDataAndConvertToJson(
-    "https://haoigdglrsytvzaw.public.blob.vercel-storage.com/keresokod_utf8-8WEYiki8HgolPNQDBDb1ANElf7Li8Y.csv",
+    "https://wp.skioutlet.hu/wp-content/uploads/2022/09/keresokod_utf8.csv",
     ["sku", "img"],
     ""
   );
