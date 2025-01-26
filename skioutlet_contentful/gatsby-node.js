@@ -9,7 +9,7 @@ async function fetchCsvDataAndConvertToJson(url, header, delimeter) {
   try {
     const csvUrl = url;
     const response = await axios.get(csvUrl, {
-      timeout: 30000, // 30 seconds
+      timeout: 60000, // 30 seconds
     });
     const csvData = response.data;
 
