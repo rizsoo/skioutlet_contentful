@@ -8,9 +8,7 @@ const filteredSearchcode = require("./src/components/functions/filter_by_color")
 async function fetchCsvDataAndConvertToJson(url, header, delimeter) {
   try {
     const csvUrl = url;
-    const response = await axios.get(csvUrl, {
-      timeout: 60000, // 30 seconds
-    });
+    const response = await axios.get(csvUrl);
     const csvData = response.data;
 
     return new Promise((resolve) => {
