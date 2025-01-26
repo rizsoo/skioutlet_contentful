@@ -1,5 +1,4 @@
 const path = require("path");
-const fetch = require("node-fetch");
 const axios = require("axios");
 const Papa = require("papaparse");
 const arrayMergeByKey = require("array-merge-by-key");
@@ -15,7 +14,6 @@ async function fetchCsvDataAndConvertToJson(url, header, delimeter) {
       Papa.parse(csvData, {
         skipEmptyLines: true,
         delimiter: delimeter,
-        // download: true,
         encoding: "UTF-8",
         dynamicTyping: false,
         dontInfer: true,
