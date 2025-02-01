@@ -1,6 +1,6 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
-})
+});
 
 /**
  * @type {import('gatsby').GatsbyConfig}
@@ -24,13 +24,13 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-manifest',
+      resolve: "gatsby-plugin-manifest",
       options: {
-        icon: 'src/assets/skioutlet.png',
+        icon: "src/assets/skioutlet.png",
       },
     },
     `gatsby-plugin-image`,
-    'gatsby-plugin-react-helmet',
+    "gatsby-plugin-react-helmet",
     `gatsby-plugin-recaptcha`,
     {
       resolve: "gatsby-plugin-sitemap",
@@ -50,12 +50,12 @@ module.exports = {
         }
       `,
         resolveSiteUrl: ({ site }) => {
-          return site.siteMetadata.siteUrl
+          return site.siteMetadata.siteUrl;
         },
         serialize: ({ path }) => {
           return {
             url: path,
-          }
+          };
         },
       },
     },
@@ -66,4 +66,4 @@ module.exports = {
     image: `/src/assets/skioutlet.png`,
     siteUrl: `https://www.skioutlet.hu`,
   },
-}
+};
