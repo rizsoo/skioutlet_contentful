@@ -51,7 +51,7 @@ exports.sourceNodes = async ({ actions }) => {
 
   // Fetch and convert CSV data to JSON
   const jsonData = await fetchCsvDataAndConvertToJson(
-    "https://assets.ctfassets.net/atk5dpdvrx61/1cP6MNr5cy2EighshQRbm9/238f6dde09b8ee1534f0aff2fd91216d/webarlista_utf8.csv",
+    "https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv",
     [
       "sku",
       "title",
