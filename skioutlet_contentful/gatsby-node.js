@@ -49,9 +49,37 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
 exports.sourceNodes = async ({ actions }) => {
   const { createNode } = actions;
 
-  // Fetch and convert CSV data to JSON
-  const jsonData = await fetchCsvDataAndConvertToJson(
-    "https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv",
+  const primaryUrl =
+    "https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv";
+  const fallbackUrl =
+    "https://assets.ctfassets.net/atk5dpdvrx61/1cP6MNr5cy2EighshQRbm9/238f6dde09b8ee1534f0aff2fd91216d/webarlista_utf8.csv";
+
+  async function fetchWithFallback(url, fallbackUrl, columns, delimiter) {
+    try {
+      return await fetchCsvDataAndConvertToJson(url, columns, delimiter);
+    } catch (error) {
+      console.error(
+        `Failed to fetch from primary URL (${url}), trying fallback...`
+      );
+      try {
+        return await fetchCsvDataAndConvertToJson(
+          fallbackUrl,
+          columns,
+          delimiter
+        );
+      } catch (fallbackError) {
+        console.error(
+          `Failed to fetch from fallback URL (${fallbackUrl}) as well.`
+        );
+        return [];
+      }
+    }
+  }
+
+  // Fetch and convert CSV data to JSON with fallback
+  const jsonData = await fetchWithFallback(
+    primaryUrl,
+    fallbackUrl,
     [
       "sku",
       "title",
@@ -67,18 +95,23 @@ exports.sourceNodes = async ({ actions }) => {
     ],
     "\t"
   );
+
   const fixedJsonData = jsonData.filter(
     (prod) => Number(prod.stock.split(",").shift()) > 0
   );
-  const imageData = await fetchCsvDataAndConvertToJson(
+
+  const imageData = await fetchWithFallback(
     "https://wp.skioutlet.hu/wp-content/uploads/2022/09/keresokod_utf8.csv",
+    "", // No fallback URL provided for images
     ["sku", "img"],
     ""
   );
+
   let mergedData = filteredSearchcode(
     arrayMergeByKey("sku", imageData, fixedJsonData).filter((el) => el.title),
     "img"
   ).filter((el) => el.sku != undefined || el.sku != null);
+
   let singleData = arrayMergeByKey("sku", imageData, fixedJsonData)
     .filter((el) => el.title)
     .filter((el) => el.sku != undefined || el.sku != null);
@@ -97,11 +130,11 @@ exports.sourceNodes = async ({ actions }) => {
   result.forEach((data, index) => {
     createNode({
       ...data,
-      id: `${index}`, // Use a unique ID for each node
+      id: `${index}`,
       parent: null,
       children: [],
       internal: {
-        type: "CsvData", // Specify the GraphQL type name for the node
+        type: "CsvData",
         contentDigest: JSON.stringify(data),
       },
     });
