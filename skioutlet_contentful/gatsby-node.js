@@ -51,7 +51,7 @@ exports.sourceNodes = async ({ actions }) => {
 
   // Fetch and convert CSV data to JSON
   const jsonData = await fetchCsvDataAndConvertToJson(
-    "https://assets.ctfassets.net/atk5dpdvrx61/1cP6MNr5cy2EighshQRbm9/238f6dde09b8ee1534f0aff2fd91216d/webarlista_utf8.csv",
+    "https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv",
     [
       "sku",
       "title",
@@ -71,7 +71,7 @@ exports.sourceNodes = async ({ actions }) => {
     (prod) => Number(prod.stock.split(",").shift()) > 0
   );
   const imageData = await fetchCsvDataAndConvertToJson(
-    "https://assets.ctfassets.net/atk5dpdvrx61/4DhmGT4lIO56dQETEM87nT/7b5a41b3c9d87725d9a658dc234832f6/keresokod_utf8.csv",
+    "https://wp.skioutlet.hu/wp-content/uploads/2022/09/keresokod_utf8.csv",
     ["sku", "img"],
     ""
   );
