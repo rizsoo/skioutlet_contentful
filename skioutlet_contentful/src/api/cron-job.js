@@ -26,12 +26,10 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "GET") {
     // Optional logic for GET requests
-    res
-      .status(200)
-      .json({
-        ok: true,
-        message: "GET request received but not triggering the API",
-      });
+    res.status(200).json({
+      ok: true,
+      message: "GET request received but not triggering the API",
+    });
   } else {
     // For all other methods, return 405 Method Not Allowed
     res.setHeader("Allow", ["POST", "GET"]);
