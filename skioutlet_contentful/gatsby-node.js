@@ -56,10 +56,12 @@ function createCSVFile(data) {
       // Rename columns
       if (key === "sku") {
         modifiedItem["id"] = item[key]; // Change "sku" to "id"
-      } else if (key === "img") {
-        modifiedItem["image_link"] = item[key]; // Change "img" to "image_link"
       } else if (key === "saleprice") {
         modifiedItem["sale_price"] = item[key]; // Change "saleprice" to "sale_price"
+      } else if (key === "cat1") {
+        modifiedItem["google_product_category"] = item[key]; // Change "saleprice" to "sale_price"
+      } else if (key === "web" || key === "cat2" || key === "list") {
+        continue; // Remove "web", "cat2", and "list"
       } else if (
         item[key] !== undefined &&
         item[key] !== null &&
@@ -68,6 +70,28 @@ function createCSVFile(data) {
         modifiedItem[key] = item[key]; // Keep other columns if they have valid values
       }
     }
+
+    // Add the new "image_link" column (converted to lowercase)
+    if (modifiedItem["brand"] && modifiedItem["img"]) {
+      modifiedItem["image_link"] =
+        `https://img.skioutlet.hu/product_images/${modifiedItem["brand"]}/${modifiedItem["img"]}.jpg`.toLowerCase();
+    }
+
+    // Add the new "link" column (converted to lowercase)
+    if (modifiedItem["img"]) {
+      modifiedItem["link"] =
+        `https://skioutlet.hu/product/${modifiedItem["img"]}`.toLowerCase();
+    }
+
+    // Add fixed description
+    modifiedItem["description"] =
+      "Üzletünk nem webáruház, így termékeink kizárólag szaküzletünkben vásárolhatóak meg!";
+
+    // Add fixed availability status
+    modifiedItem["availability"] = "in_stock";
+
+    // Add availability date (current date in ISO 8601 format)
+    modifiedItem["availability_date"] = new Date().toISOString();
 
     return modifiedItem;
   });
