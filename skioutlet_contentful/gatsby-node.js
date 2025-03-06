@@ -3,6 +3,8 @@ const axios = require("axios");
 const Papa = require("papaparse");
 const arrayMergeByKey = require("array-merge-by-key");
 const filteredSearchcode = require("./src/components/functions/filter_by_color");
+const fs = require("fs");
+const pathModule = require("path"); // Rename the imported path module
 
 async function fetchCsvDataAndConvertToJson(url, header, delimeter) {
   try {
@@ -44,6 +46,19 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
     },
   });
 };
+
+// Function to create the CSV and save it in the `static` directory (accessible in Gatsby)
+function createCSVFile(data) {
+  const csvData = Papa.unparse(data); // Convert data to CSV format
+
+  // Define the path where you want to save the CSV file
+  const filePath = pathModule.join(__dirname, "static", "product_data.csv");
+
+  // Write the CSV data to a file
+  fs.writeFileSync(filePath, csvData, "utf8");
+
+  console.log("CSV file has been created:", filePath);
+}
 
 // Create the GraphQL
 exports.sourceNodes = async ({ actions }) => {
@@ -106,6 +121,7 @@ exports.sourceNodes = async ({ actions }) => {
       },
     });
   });
+  createCSVFile(result);
 };
 
 // Create pages
