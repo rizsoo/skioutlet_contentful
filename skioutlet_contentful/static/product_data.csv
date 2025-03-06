@@ -1,4 +1,4 @@
-sku,img,undefined,title,brand,web,cat1,cat2,price,saleprice,isonsale,stock,size,list
+id,image_link,undefined,title,brand,web,cat1,cat2,price,sale_price,isonsale,stock,size,list
 05000702#100#10_TT,05000702_100,"125990,00",Nordica DOBERMANN WC EDT 130 férfi sícipő,Nordica,www.nordica.com,Sícipő,Felszerelés,179990,125990,0,"2,00",29,"[object Object],[object Object]"
 05054603#775#310,05054603_775,"56990,00",Nordica CRUISE 60 férfi sícipő,Nordica,www.nordica.com,Sícipő,Felszerelés,61890,56990,0,"1,00",31,[object Object]
 05077000#203#235_TT,05077000_203,"42990,00",Nordica GPX 70 gyerek sícipő,Nordica,www.nordica.com,Sícipő,Felszerelés,61990,42990,0,"1,00",23.5,[object Object]

@@ -49,7 +49,30 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
 
 // Function to create the CSV and save it in the `static` directory (accessible in Gatsby)
 function createCSVFile(data) {
-  const csvData = Papa.unparse(data); // Convert data to CSV format
+  const modifiedData = data.map((item) => {
+    const modifiedItem = {};
+
+    for (let key in item) {
+      // Rename columns
+      if (key === "sku") {
+        modifiedItem["id"] = item[key]; // Change "sku" to "id"
+      } else if (key === "img") {
+        modifiedItem["image_link"] = item[key]; // Change "img" to "image_link"
+      } else if (key === "saleprice") {
+        modifiedItem["sale_price"] = item[key]; // Change "saleprice" to "sale_price"
+      } else if (
+        item[key] !== undefined &&
+        item[key] !== null &&
+        item[key] !== ""
+      ) {
+        modifiedItem[key] = item[key]; // Keep other columns if they have valid values
+      }
+    }
+
+    return modifiedItem;
+  });
+
+  const csvData = Papa.unparse(modifiedData); // Convert data to CSV format
 
   // Define the path where you want to save the CSV file
   const filePath = pathModule.join(__dirname, "static", "product_data.csv");
