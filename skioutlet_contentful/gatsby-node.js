@@ -73,8 +73,11 @@ function createCSVFile(data) {
 
     // Add the new "image_link" column (converted to lowercase)
     if (modifiedItem["brand"] && modifiedItem["img"]) {
-      modifiedItem["image_link"] =
-        `https://img.skioutlet.hu/product_images/${modifiedItem["brand"]}/${modifiedItem["img"]}.jpg`.toLowerCase();
+      modifiedItem[
+        "image_link"
+      ] = `https://img.skioutlet.hu/product_images/${modifiedItem[
+        "brand"
+      ].toLowerCase()}/${modifiedItem["img"]}.jpg`;
     }
 
     // Add the new "link" column (converted to lowercase)
