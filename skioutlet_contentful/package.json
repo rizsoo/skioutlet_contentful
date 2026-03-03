@@ -59,5 +59,8 @@
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
+  },
+  "resolutions": {
+    "msgpackr": "1.11.8"
   }
 }
