@@ -132,18 +132,16 @@ function createCSVFile(data) {
 
     // Add the new "image_link" column (converted to lowercase)
     if (modifiedItem["brand"] && modifiedItem["img"]) {
-      modifiedItem[
-        "image_link"
-      ] = `https://img.skioutlet.hu/product_images/${modifiedItem[
-        "brand"
-      ].toLowerCase()}/${modifiedItem["img"]}.jpg`;
+      modifiedItem["image_link"] =
+        `https://img.skioutlet.hu/product_images/${modifiedItem[
+          "brand"
+        ].toLowerCase()}/${modifiedItem["img"]}.jpg`;
     }
 
     // Add the new "link" column (converted to lowercase)
     if (modifiedItem["img"]) {
-      modifiedItem[
-        "link"
-      ] = `https://skioutlet.hu/product/${modifiedItem["img"]}`;
+      modifiedItem["link"] =
+        `https://skioutlet.hu/product/${modifiedItem["img"]}`;
     }
 
     // Add fixed description
@@ -190,19 +188,19 @@ exports.sourceNodes = async ({ actions }) => {
       "stock",
       "size",
     ],
-    "\t"
+    "\t",
   );
   const fixedJsonData = jsonData.filter(
-    (prod) => Number(prod.stock.split(",").shift()) > 0
+    (prod) => Number(prod.stock.split(",").shift()) > 0,
   );
   const imageData = await fetchCsvDataAndConvertToJson(
     "https://wp.skioutlet.hu/wp-content/uploads/2022/09/keresokod_utf8.csv",
     ["sku", "img"],
-    ""
+    "",
   );
   let mergedData = filteredSearchcode(
     arrayMergeByKey("sku", imageData, fixedJsonData).filter((el) => el.title),
-    "img"
+    "img",
   ).filter((el) => el.sku != undefined || el.sku != null);
   let singleData = arrayMergeByKey("sku", imageData, fixedJsonData)
     .filter((el) => el.title)
@@ -221,7 +219,7 @@ exports.sourceNodes = async ({ actions }) => {
   // If remote fetch failed and we have no data, fall back to local CSV
   if (result.length === 0) {
     console.warn(
-      "Remote CSV data is empty — falling back to local static/product_data.csv"
+      "Remote CSV data is empty — falling back to local static/product_data.csv",
     );
     result = await readLocalCsvFallback();
   }
@@ -292,8 +290,8 @@ exports.createPages = async ({ graphql, actions }) => {
                 : !node.slug.includes("_") && `${node.slug}`
             }`
           : node.slug === "home"
-          ? `/${node.node_locale}`
-          : `/${node.node_locale}/${node.slug}`,
+            ? `/${node.node_locale}`
+            : `/${node.node_locale}/${node.slug}`,
       component:
         node.slug === "shop"
           ? path.resolve(`src/templates/shop-template.js`)
@@ -316,8 +314,8 @@ exports.createPages = async ({ graphql, actions }) => {
                 : !node.slug.includes("_") && `${node.slug}`
             }`
           : node.slug === "home"
-          ? `/${node.node_locale}`
-          : `/${node.node_locale}/${node.slug}`,
+            ? `/${node.node_locale}`
+            : `/${node.node_locale}/${node.slug}`,
       component: path.resolve(`src/templates/news-template.js`),
       context: {
         slug: node.slug,
@@ -377,7 +375,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Categories pages for SEO in HUN
   const categories = Array.from(
-    new Set(data.products.nodes.map((el) => el.cat1))
+    new Set(data.products.nodes.map((el) => el.cat1)),
   );
   categories.forEach((node) => {
     let correctSlug = node
