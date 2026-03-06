@@ -6,6 +6,65 @@ const filteredSearchcode = require("./src/components/functions/filter_by_color")
 const fs = require("fs");
 const pathModule = require("path"); // Rename the imported path module
 
+// Ensure the CsvData GraphQL type always exists even when fetch fails
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions;
+  createTypes(`
+    type CsvDataList {
+      size: String
+      stock: String
+    }
+    type CsvData implements Node {
+      sku: String
+      img: String
+      title: String
+      brand: String
+      cat1: String
+      cat2: String
+      price: String
+      saleprice: String
+      isonsale: String
+      stock: String
+      size: String
+      list: [CsvDataList]
+    }
+  `);
+};
+
+// Fallback: read last known good data from static/product_data.csv
+async function readLocalCsvFallback() {
+  try {
+    const filePath = pathModule.join(__dirname, "static", "product_data.csv");
+    if (!fs.existsSync(filePath)) return [];
+    const csvData = fs.readFileSync(filePath, "utf8");
+    return new Promise((resolve) => {
+      Papa.parse(csvData, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (result) => {
+          const remapped = result.data.map((row) => ({
+            sku: row.id,
+            img: row.img,
+            title: row.title,
+            brand: row.brand,
+            cat1: row.google_product_category,
+            price: row.price,
+            saleprice: row.sale_price,
+            isonsale: row.isonsale,
+            stock: row.stock,
+            size: row.size,
+            list: [{ size: row.size, stock: row.stock }],
+          }));
+          resolve(remapped);
+        },
+      });
+    });
+  } catch (err) {
+    console.error("Failed to read local CSV fallback:", err);
+    return [];
+  }
+}
+
 async function fetchCsvDataAndConvertToJson(url, header, delimeter) {
   try {
     const csvUrl = url;
@@ -158,6 +217,14 @@ exports.sourceNodes = async ({ actions }) => {
         stock: el.stock,
       })),
   }));
+
+  // If remote fetch failed and we have no data, fall back to local CSV
+  if (result.length === 0) {
+    console.warn(
+      "Remote CSV data is empty — falling back to local static/product_data.csv"
+    );
+    result = await readLocalCsvFallback();
+  }
 
   // Create a new GraphQL node for the JSON data
   result.forEach((data, index) => {
