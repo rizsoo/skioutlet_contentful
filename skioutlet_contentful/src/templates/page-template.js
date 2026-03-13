@@ -120,7 +120,6 @@ export const query = graphql`
                 image {
                   url
                 }
-                link
               }
               ... on ContentfulProductCollection {
                 id
