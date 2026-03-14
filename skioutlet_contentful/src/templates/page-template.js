@@ -86,11 +86,6 @@ export const query = graphql`
       content {
         raw
         references {
-          ... on ContentfulShopSection {
-            __typename
-            contentful_id
-            title
-          }
           ... on ContentfulSupportersSection {
             __typename
             contentful_id
