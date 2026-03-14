@@ -281,6 +281,8 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Simple Contentful pages
   data.pages.nodes.forEach((node) => {
+    // INACTIVE: shop page disabled
+    if (node.slug === "shop") return;
     createPage({
       path:
         node.node_locale === "hu"
@@ -292,10 +294,7 @@ exports.createPages = async ({ graphql, actions }) => {
           : node.slug === "home"
             ? `/${node.node_locale}`
             : `/${node.node_locale}/${node.slug}`,
-      component:
-        node.slug === "shop"
-          ? path.resolve(`src/templates/shop-template.js`)
-          : path.resolve(`src/templates/page-template.js`),
+      component: path.resolve(`src/templates/page-template.js`),
       context: {
         slug: node.slug,
         node_locale: node.node_locale,
@@ -324,86 +323,86 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Products hu pages
-  data.products.nodes.forEach((node) => {
-    createPage({
-      path: `/product/${node.img}`,
-      component: path.resolve(`src/templates/product-template.js`),
-      context: {
-        slug: `product/${node.img}`,
-        node_locale: "hu",
-        details: node,
-      },
-    });
-  });
+  // INACTIVE: Product hu pages disabled
+  // data.products.nodes.forEach((node) => {
+  //   createPage({
+  //     path: `/product/${node.img}`,
+  //     component: path.resolve(`src/templates/product-template.js`),
+  //     context: {
+  //       slug: `product/${node.img}`,
+  //       node_locale: "hu",
+  //       details: node,
+  //     },
+  //   });
+  // });
 
-  // Products en pages
-  data.products.nodes.forEach((node) => {
-    createPage({
-      path: `en/product/${node.img}`,
-      component: path.resolve(`src/templates/product-template.js`),
-      context: {
-        slug: `product/${node.img}`,
-        node_locale: "en",
-        details: node,
-      },
-    });
-  });
+  // INACTIVE: Product en pages disabled
+  // data.products.nodes.forEach((node) => {
+  //   createPage({
+  //     path: `en/product/${node.img}`,
+  //     component: path.resolve(`src/templates/product-template.js`),
+  //     context: {
+  //       slug: `product/${node.img}`,
+  //       node_locale: "en",
+  //       details: node,
+  //     },
+  //   });
+  // });
 
-  // Shop page num pages HU
-  Array.from({ length: 100 }, (v, k) => k + 1).forEach((node) => {
-    createPage({
-      path: `/shop/pagenum_${node}`,
-      component: path.resolve(`src/templates/shop-template.js`),
-      context: {
-        slug: `/shop/pagenum_${node}`,
-        node_locale: "hu",
-      },
-    });
-  });
-  // EN
-  Array.from({ length: 100 }, (v, k) => k + 1).forEach((node) => {
-    createPage({
-      path: `/en/shop/pagenum_${node}`,
-      component: path.resolve(`src/templates/shop-template.js`),
-      context: {
-        slug: `en/shop/pagenum_${node}`,
-        node_locale: "en",
-      },
-    });
-  });
+  // INACTIVE: Shop page num pages HU disabled
+  // Array.from({ length: 100 }, (v, k) => k + 1).forEach((node) => {
+  //   createPage({
+  //     path: `/shop/pagenum_${node}`,
+  //     component: path.resolve(`src/templates/shop-template.js`),
+  //     context: {
+  //       slug: `/shop/pagenum_${node}`,
+  //       node_locale: "hu",
+  //     },
+  //   });
+  // });
+  // INACTIVE: Shop page num pages EN disabled
+  // Array.from({ length: 100 }, (v, k) => k + 1).forEach((node) => {
+  //   createPage({
+  //     path: `/en/shop/pagenum_${node}`,
+  //     component: path.resolve(`src/templates/shop-template.js`),
+  //     context: {
+  //       slug: `en/shop/pagenum_${node}`,
+  //       node_locale: "en",
+  //     },
+  //   });
+  // });
 
-  // Categories pages for SEO in HUN
-  const categories = Array.from(
-    new Set(data.products.nodes.map((el) => el.cat1)),
-  );
-  categories.forEach((node) => {
-    let correctSlug = node
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-    createPage({
-      path: `/shop/${correctSlug}`,
-      component: path.resolve(`src/templates/shop-template.js`),
-      context: {
-        slug: `/shop/${correctSlug}`,
-        node_locale: "hu",
-      },
-    });
-  });
-  //EN
-  categories.forEach((node) => {
-    let correctSlug = node
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-    createPage({
-      path: `en/shop/${correctSlug}`,
-      component: path.resolve(`src/templates/shop-template.js`),
-      context: {
-        slug: `en/shop/${correctSlug}`,
-        node_locale: "en",
-      },
-    });
-  });
+  // INACTIVE: Category pages for SEO disabled
+  // const categories = Array.from(
+  //   new Set(data.products.nodes.map((el) => el.cat1)),
+  // );
+  // categories.forEach((node) => {
+  //   let correctSlug = node
+  //     .normalize("NFD")
+  //     .replace(/[\u0300-\u036f]/g, "")
+  //     .toLowerCase();
+  //   createPage({
+  //     path: `/shop/${correctSlug}`,
+  //     component: path.resolve(`src/templates/shop-template.js`),
+  //     context: {
+  //       slug: `/shop/${correctSlug}`,
+  //       node_locale: "hu",
+  //     },
+  //   });
+  // });
+  // //EN
+  // categories.forEach((node) => {
+  //   let correctSlug = node
+  //     .normalize("NFD")
+  //     .replace(/[\u0300-\u036f]/g, "")
+  //     .toLowerCase();
+  //   createPage({
+  //     path: `en/shop/${correctSlug}`,
+  //     component: path.resolve(`src/templates/shop-template.js`),
+  //     context: {
+  //       slug: `en/shop/${correctSlug}`,
+  //       node_locale: "en",
+  //     },
+  //   });
+  // });
 };
