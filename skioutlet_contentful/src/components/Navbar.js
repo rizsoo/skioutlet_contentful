@@ -40,7 +40,7 @@ export const Navbar = ({ navbar, lang }) => {
           <Link to={lang.node_locale === "hu" ? "/" : "/en"}>
             <img src={logo} />
           </Link>
-          <a
+          {/*<a
             href={"https://g.page/skioutlet?share"}
             target="_blank"
             rel="noreferrer"
@@ -49,7 +49,7 @@ export const Navbar = ({ navbar, lang }) => {
               <HiOutlineLocationMarker />
               <p>1027 Budapest, Margit körút 46.</p>
             </Location>
-          </a>
+          </a>*/}
         </Banner>
         <Nav>
           <ul>
@@ -62,8 +62,8 @@ export const Navbar = ({ navbar, lang }) => {
                       lang.node_locale === "hu"
                         ? `/${el.slug === "home" ? `` : `${el.slug}`}`
                         : el.slug === "home"
-                        ? `/${el.node_locale}`
-                        : `/${el.node_locale}/${el.slug}`
+                          ? `/${el.node_locale}`
+                          : `/${el.node_locale}/${el.slug}`
                     }
                   >
                     <NavElement active={el.title === lang.title}>
@@ -111,10 +111,10 @@ export const Navbar = ({ navbar, lang }) => {
                         lang.slug === "home" && lang.node_locale === "en"
                           ? "/"
                           : lang.slug === "home"
-                          ? `/${country_code}`
-                          : lang.node_locale === "en"
-                          ? `/${lang.slug}`
-                          : `/${country_code}/${lang.slug}`
+                            ? `/${country_code}`
+                            : lang.node_locale === "en"
+                              ? `/${lang.slug}`
+                              : `/${country_code}/${lang.slug}`
                       }
                     >
                       <img src={code} alt="" key={code} />
