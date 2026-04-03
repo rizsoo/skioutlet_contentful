@@ -16,7 +16,7 @@ const HomepageSection = ({ props, products }) => {
 
   return (
     <Frame>
-      {props.map((el) => {
+      {props.map((el, index) => {
         console.log(el);
 
         let res = el.searchTerm && el.searchTerm.map((el) => el.toLowerCase());
@@ -24,19 +24,21 @@ const HomepageSection = ({ props, products }) => {
           res &&
           products.nodes
             .filter((prod) =>
-              res.every((elem) => prod.title.toLowerCase().includes(elem))
+              res.every((elem) => prod.title.toLowerCase().includes(elem)),
             )
             .slice(sliderNum - 4, sliderNum);
         switch (el.__typename) {
           case "ContentfulSimpleCard":
           case "ContentfulNews":
             return (
-              <BgBox bg={el.image && el.image.url}>
+              <BgBox bg={el.image && el.image.url} centered={index === 0}>
                 <Link to={el.link ? el.link : el.slug && el.slug}>
-                  <span>
-                    <h3>{el.title}</h3>
-                    {el.short && <p>{el.short}</p>}
-                  </span>
+                  {(el.title || el.short) && (
+                    <span>
+                      {el.title && <h3>{el.title}</h3>}
+                      {el.short && <p>{el.short}</p>}
+                    </span>
+                  )}
                 </Link>
               </BgBox>
             );
@@ -82,7 +84,7 @@ const HomepageSection = ({ props, products }) => {
 export const Frame = styled.div`
   padding: 20px 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1.4fr 1fr 1fr;
   grid-template-rows: repeat(2, 1fr);
   gap: 25px;
 
@@ -116,7 +118,8 @@ export const BgBox = styled.div`
 
   background-image: url(${(props) => props.bg && props.bg});
   background-size: cover;
-  background-position: 0 -50px;
+  background-position: ${(props) =>
+    props.centered ? "center center" : "center center"};
   span {
     display: flex;
     flex-direction: column;
@@ -133,7 +136,7 @@ export const BgBox = styled.div`
   }
   @media (max-width: 650px) {
     background-position: center;
-    height: 365px;
+    height: ${(props) => (props.centered ? "550px" : "365px")};
   }
 `;
 export const ProductFrame = styled.div`
