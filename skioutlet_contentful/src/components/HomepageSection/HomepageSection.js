@@ -29,19 +29,33 @@ const HomepageSection = ({ props, products }) => {
             .slice(sliderNum - 4, sliderNum);
         switch (el.__typename) {
           case "ContentfulSimpleCard":
-          case "ContentfulNews":
+          case "ContentfulNews": {
+            const href = el.link ? el.link : el.slug;
+            const isExternal = href && href.startsWith("https");
             return (
               <BgBox bg={el.image && el.image.url} centered={index === 0}>
-                <Link to={el.link ? el.link : el.slug && el.slug}>
-                  {(el.title || el.short) && (
-                    <span>
-                      {el.title && <h3>{el.title}</h3>}
-                      {el.short && <p>{el.short}</p>}
-                    </span>
-                  )}
-                </Link>
+                {isExternal ? (
+                  <a href={href} target="_blank" rel="noopener noreferrer">
+                    {(el.title || el.short) && (
+                      <span>
+                        {el.title && <h3>{el.title}</h3>}
+                        {el.short && <p>{el.short}</p>}
+                      </span>
+                    )}
+                  </a>
+                ) : (
+                  <Link to={href || "/"}>
+                    {(el.title || el.short) && (
+                      <span>
+                        {el.title && <h3>{el.title}</h3>}
+                        {el.short && <p>{el.short}</p>}
+                      </span>
+                    )}
+                  </Link>
+                )}
               </BgBox>
             );
+          }
           case "ContentfulProductCollection":
             return (
               <ProductFrame>
@@ -109,17 +123,26 @@ export const Frame = styled.div`
 `;
 export const BgBox = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: end;
 
   box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
   border-radius: 8px;
-  padding: 15px;
 
   background-image: url(${(props) => props.bg && props.bg});
   background-size: cover;
-  background-position: ${(props) =>
-    props.centered ? "center center" : "center center"};
+  background-position: center center;
+
+  a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: black;
+    min-height: 260px;
+  }
+
   span {
     display: flex;
     flex-direction: column;
@@ -136,7 +159,9 @@ export const BgBox = styled.div`
   }
   @media (max-width: 650px) {
     background-position: center;
-    height: ${(props) => (props.centered ? "550px" : "365px")};
+    a {
+      min-height: ${(props) => (props.centered ? "550px" : "365px")};
+    }
   }
 `;
 export const ProductFrame = styled.div`

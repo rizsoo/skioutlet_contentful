@@ -96,6 +96,7 @@ export const query = graphql`
                 __typename
                 title
                 short
+                link
                 image {
                   url
                 }
@@ -112,6 +113,7 @@ export const query = graphql`
                 __typename
                 title
                 short
+                link
                 image {
                   url
                 }

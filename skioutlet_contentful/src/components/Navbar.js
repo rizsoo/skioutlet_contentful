@@ -101,7 +101,7 @@ export const Navbar = ({ navbar, lang }) => {
                   <BsYoutube />
                 </a>
               </li>
-              <Flag>
+              {/*<Flag>
                 {languages
                   .filter((el) => el.country_code !== lang.node_locale)
                   .map(({ code, name, country_code }) => (
@@ -120,7 +120,7 @@ export const Navbar = ({ navbar, lang }) => {
                       <img src={code} alt="" key={code} />
                     </Link>
                   ))}
-              </Flag>
+              </Flag>*/}
             </Socials>
           </ul>
         </Nav>
