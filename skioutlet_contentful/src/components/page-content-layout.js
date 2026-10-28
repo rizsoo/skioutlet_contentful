@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { graphql, useStaticQuery } from 'gatsby'
 
 import { Navbar } from './Navbar'
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
@@ -12,14 +13,35 @@ import HomepageSection from './HomepageSection/HomepageSection'
 import { SupportersSection } from './SupportersSection/SupportersSection'
 
 export const PageContentLayout = ({ title, content, navbar, footer, footer2, details, path, products, product, image }) => {
+    const { allContentfulAsset } = useStaticQuery(graphql`
+        query ContentfulRichTextAssets {
+            allContentfulAsset {
+                nodes {
+                    __typename
+                    contentful_id
+                    title
+                    description
+                    file {
+                        url
+                    }
+                }
+            }
+        }
+    `)
 
     const options = {
         renderNode: {
             [BLOCKS.EMBEDDED_ASSET]: (node) => {
-                let link = node.data.target.description;
+                const asset = node.data.target;
+                const imageUrl = asset?.file?.url;
+                if (!imageUrl) return null;
+
+                const link = asset.description;
+                const image = <img src={imageUrl} alt={asset.title || ""} />;
                 if (link) {
-                    return <a href={link} target={link.includes("http") && "_blank"} rel="noreferrer"><img src={node.data.target.file.url} alt="" /></a>
-                } else return <img src={node.data.target.file.url} alt="" />
+                    return <a href={link} target={link.includes("http") ? "_blank" : undefined} rel="noreferrer">{image}</a>
+                }
+                return image
             },
             [INLINES.HYPERLINK]: (node) => {
                 let link = node.data.uri
@@ -78,7 +100,10 @@ export const PageContentLayout = ({ title, content, navbar, footer, footer2, det
         }
     }
 
-    const output = content && renderRichText(content, options)
+    const output = content && renderRichText({
+        ...content,
+        references: [...(content.references || []), ...allContentfulAsset.nodes],
+    }, options)
 
     return (
         <Page>
@@ -155,5 +180,3 @@ export const Paragraph = styled.p`
         font-weight: 600;
     }
 `
-
-
